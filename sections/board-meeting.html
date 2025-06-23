@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board Meeting - Encore Landscape Management</title>
+    
+    <!-- Embedded Styles for Mobile Responsiveness -->
+    <style>
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+        }
+        
+        #board-meeting {
+            padding: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .full-width-card {
+            width: 100%;
+        }
+        
+        .card-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 0.5rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: #e9ecef;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex: 0 0 auto;
+        }
+        
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .tab:hover:not(.active) {
+            background: #dee2e6;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Info Boxes */
+        .info-box {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-box {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .alert-box.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .alert-box.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .alert-box.danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .alert-box.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .alert-box.primary {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        /* Contact Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        
+        .contact-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .contact-card h5 {
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Transportation Cards */
+        .transport-card {
+            background: #e8f4fd;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .transport-card h4 {
+            color: #2980b9;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Schedule Items */
+        .schedule-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .schedule-card.day-1 {
+            background: #f8f9fa;
+        }
+        
+        .schedule-card.day-2 {
+            background: #e8f4fd;
+        }
+        
+        .schedule-card.day-3 {
+            background: #f8f9fa;
+        }
+        
+        .schedule-card.day-4 {
+            background: #e9ecef;
+        }
+        
+        /* Document Cards */
+        .doc-card {
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .doc-card.blue {
+            border-left: 4px solid #3498db;
+        }
+        
+        .doc-card.red {
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .doc-card.green {
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .doc-card.orange {
+            border-left: 4px solid #f39c12;
+        }
+        
+        /* Links */
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Lists */
+        ol, ul {
+            margin: 0.5rem 0 0 1.2rem;
+            padding: 0;
+        }
+        
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            #board-meeting {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.2rem;
+                border-radius: 10px;
+            }
+            
+            .card:hover {
+                transform: none;
+            }
+            
+            .card-header {
+                padding-bottom: 0.8rem;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+            }
+            
+            .tabs {
+                gap: 0.5rem;
+                padding-bottom: 0.5rem;
+            }
+            
+            .tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+                flex: 1 1 auto;
+                min-width: fit-content;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Font size adjustments */
+            body {
+                font-size: 0.95rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            h3 {
+                font-size: 1.1rem;
+            }
+            
+            h4 {
+                font-size: 1rem;
+            }
+            
+            h5 {
+                font-size: 0.95rem;
+            }
+            
+            p, div {
+                font-size: 0.9rem;
+            }
+            
+            small {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-box {
+                padding: 1rem;
+            }
+            
+            .transport-card {
+                padding: 1rem;
+            }
+            
+            .schedule-card {
+                padding: 1rem;
+            }
+        }
+        
+        /* Touch-friendly adjustments */
+        @media (hover: none) and (pointer: coarse) {
+            .tab {
+                min-height: 44px;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .tabs {
+                display: none !important;
+            }
+            
+            .tab-content {
+                display: block !important;
+                page-break-before: always;
+            }
+            
+            .card {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Board Meeting Section -->
+    <div id="board-meeting" class="section">
+        <!-- Board Meeting Information Card -->
+        <div class="card full-width-card">
+            <div class="card-header">
+                <h2 class="card-title">REvolution Board Meeting - June 2025</h2>
+            </div>
+            <div class="tabs">
+                <button class="tab active" onclick="showMeetingTab('overview')">Overview</button>
+                <button class="tab" onclick="showMeetingTab('transportation')">Transportation</button>
+                <button class="tab" onclick="showMeetingTab('schedule')">Schedule & Attire</button>
+                <button class="tab" onclick="showMeetingTab('app')">Meeting App</button>
+            </div>
+            
+            <div id="meeting-tabs-container">
+                <div id="overview" class="tab-content active">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 1.5rem;">
+                        <div>
+                            <h3 style="color: #2c3e50; margin-bottom: 1rem;">Location Details</h3>
+                            <div class="info-box">
+                                <h4 style="color: #3498db; margin-bottom: 0.5rem;">Fairmont Chateau Whistler</h4>
+                                <p style="margin: 0.3rem 0;">4599 Chateau Boulevard</p>
+                                <p style="margin: 0.3rem 0;">Whistler, BC V8E 0Z5 Canada</p>
+                                <p style="margin: 0.3rem 0;"><strong>Check-in:</strong> 4:00 PM</p>
+                            </div>
+                            
+                            <div class="alert-box primary">
+                                <h5 style="margin-bottom: 0.5rem;">Meeting Registration</h5>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;"><strong>Wednesday, June 25</strong></p>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">3:30 PM - 5:30 PM</p>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">Empress Foyer</p>
+                                <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">
+                                    <em>Badges also available at Welcome Reception (6:30-8:30 PM)</em>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 style="color: #2c3e50; margin-bottom: 1rem;">Key Information</h3>
+                            <div class="alert-box warning">
+                                <h5 style="margin-bottom: 0.5rem;">Board Book</h5>
+                                <p style="font-size: 0.9rem;">Download before arrival - hotel Wi-Fi may be insufficient for large downloads. Contact locklizardsupport@captiveresources.com for assistance.</p>
+                            </div>
+                            
+                            <div class="alert-box success">
+                                <h5 style="margin-bottom: 0.5rem;">Weather</h5>
+                                <p style="font-size: 0.9rem;">High: 68°F (20°C) | Low: 49°F (9°C)</p>
+                                <p style="font-size: 0.85rem;">Bring layers and a jacket for evening events</p>
+                            </div>
+                            
+                            <div class="alert-box danger">
+                                <h5 style="margin-bottom: 0.5rem;">Important Reminders</h5>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">• Wear your badge to all functions</p>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">• Note dietary restrictions to servers</p>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">• Allow notifications from meeting app</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <h3 style="color: #2c3e50; margin-bottom: 1rem;">Contact Information</h3>
+                        <div class="contact-grid">
+                            <div class="contact-card">
+                                <h5>Meeting Coordinators</h5>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">Alex Harrold: aharrold@captiveresources.com</p>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">Sarah Colgan: scolgan@captiveresources.com</p>
+                            </div>
+                            <div class="contact-card">
+                                <h5>Hotel Concierge</h5>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">Phone: 604-938-2006</p>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">Email: CWR.concierge@fairmont.com</p>
+                            </div>
+                            <div class="contact-card">
+                                <h5>Travel Assistance</h5>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">Options Travel: 800-899-4380</p>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">Email: captive@optionstravel.com</p>
+                            </div>
+                            <div class="contact-card">
+                                <h5>Captive Executives</h5>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">Jon De Wulf: 847-230-8409</p>
+                                <p style="font-size: 0.9rem; margin: 0.3rem 0;">Jake Doherty: 847-944-9859</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="transportation" class="tab-content">
+                    <div style="margin-top: 1.5rem;">
+                        <div class="alert-box danger">
+                            <h4 style="margin-bottom: 0.5rem;">Important Transportation Notes</h4>
+                            <p style="font-size: 0.9rem;">• Whistler is 2.5 hours from Vancouver Airport (YVR) via Highway 99</p>
+                            <p style="font-size: 0.9rem;">• Leave Whistler at least 5 hours before your flight for customs/check-in</p>
+                            <p style="font-size: 0.9rem;">• <strong>No taxis, Uber, or Lyft available</strong> between Vancouver and Whistler</p>
+                            <p style="font-size: 0.9rem;">• Reservations are required for all transportation options</p>
+                        </div>
+                        
+                        <h3 style="color: #2c3e50; margin-bottom: 1rem;">Transportation Options</h3>
+                        
+                        <div style="display: grid; gap: 1.5rem;">
+                            <div class="transport-card">
+                                <h4>SKYLYNX</h4>
+                                <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Express non-stop service between YVR and Fairmont Chateau Whistler</p>
+                                <p style="font-size: 0.9rem;"><strong>Website:</strong> <a href="https://yvrskylynx.com/">yvrskylynx.com</a></p>
+                                <p style="font-size: 0.85rem; color: #666;">Prices vary by transfer time - check website for schedule</p>
+                            </div>
+                            
+                            <div class="transport-card">
+                                <h4>Whistler Shuttle</h4>
+                                <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Express non-stop shuttle service</p>
+                                <p style="font-size: 0.9rem;"><strong>Website:</strong> <a href="https://www.whistlershuttle.com/">whistlershuttle.com</a></p>
+                                <p style="font-size: 0.9rem;"><strong>Phone:</strong> 604-966-2041</p>
+                            </div>
+                            
+                            <div class="transport-card">
+                                <h4>Chauffeured Vehicles</h4>
+                                <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Sedans, SUVs, vans, or mini coaches available</p>
+                                <p style="font-size: 0.9rem;">Contact hotel concierge to arrange:</p>
+                                <p style="font-size: 0.9rem;">• Phone: 604-938-2006</p>
+                                <p style="font-size: 0.9rem;">• Email: CWR.concierge@fairmont.com</p>
+                            </div>
+                            
+                            <div class="transport-card">
+                                <h4>Rental Cars</h4>
+                                <p style="font-size: 0.9rem;">Available at Vancouver International Airport</p>
+                                <p style="font-size: 0.9rem;">Reservations required</p>
+                            </div>
+                        </div>
+                        
+                        <div class="alert-box warning" style="margin-top: 1.5rem;">
+                            <p style="font-size: 0.9rem;">
+                                <strong>Note:</strong> Shuttles with multiple stops can take up to 3.5 hours each way. Confirm your shuttle details and timing when booking.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="schedule" class="tab-content">
+                    <div style="margin-top: 1.5rem;">
+                        <h3 style="color: #2c3e50; margin-bottom: 1rem;">Event Schedule & Dress Code</h3>
+                        
+                        <div style="display: grid; gap: 1rem;">
+                            <div class="schedule-card day-1">
+                                <h4 style="color: #3498db; margin-bottom: 0.5rem;">Wednesday, June 25</h4>
+                                <div style="margin-bottom: 0.8rem;">
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>Meeting Registration:</strong> 3:30 PM - 5:30 PM (Empress Foyer)</p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>Orientation & Financial Review:</strong> 4:00 PM - 6:30 PM <span style="color: #e74c3c;">(Mandatory)</span></p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>Welcome Reception:</strong> 6:30 PM - 8:30 PM (Woodlands Terrace)</p>
+                                    <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;"><em>Dress Code: Business casual (bring jacket for evening)</em></p>
+                                </div>
+                            </div>
+                            
+                            <div class="schedule-card day-2">
+                                <h4 style="color: #2980b9; margin-bottom: 0.5rem;">Thursday, June 26 - Networking Day</h4>
+                                <div style="margin-bottom: 0.8rem;">
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>10:00 AM:</strong> Activities Depart (Hotel Lobby)</p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0 0.2rem 1rem;">• Golf at Fairmont Chateau Whistler Golf Club</p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0 0.2rem 1rem;">• Peak to Peak Experience (includes lunch on mountain)</p>
+                                    <p style="font-size: 0.85rem; color: #666; margin: 0.5rem 0 0 1rem;"><em>Golf attire or comfortable walking shoes, dress in layers</em></p>
+                                </div>
+                                <div>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>Reception:</strong> 6:00-6:45 PM (Hotel)</p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>Dine Around:</strong> 6:45 PM departures, 7:00-9:30 PM dinner</p>
+                                    <p style="font-size: 0.85rem; color: #666; margin: 0.3rem 0 0 1rem;">Hy's Steakhouse - 4308 Main St, Whistler</p>
+                                    <p style="font-size: 0.85rem; color: #666; margin-top: 0.3rem;"><em>Dress Code: Business casual</em></p>
+                                </div>
+                            </div>
+                            
+                            <div class="schedule-card day-3">
+                                <h4 style="color: #3498db; margin-bottom: 0.5rem;">Friday, June 27</h4>
+                                <div style="margin-bottom: 0.8rem;">
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>7:30 AM:</strong> Breakfast</p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>8:30-9:30 AM:</strong> Shareholders Meeting</p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>9:30-10:30 AM:</strong> Board of Directors Meeting</p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>10:45 AM-12:00 PM:</strong> Committee Meetings (Finance, Risk Control, Underwriting)</p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>12:00-12:45 PM:</strong> Member Lunch</p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>12:45-4:00 PM:</strong> Board Meeting (Continued)</p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>Spouse/Guest Activity:</strong> Scandinave Spa</p>
+                                    <p style="font-size: 0.85rem; color: #666; margin: 0.3rem 0 0 1rem;"><em>Bring bathing suit, flip flops, water bottle</em></p>
+                                </div>
+                                <div>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>President's Reception:</strong> 6:30-7:15 PM (Hotel Terrace)</p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>President's Dinner:</strong> 7:15-10:00 PM (Hotel Terrace)</p>
+                                    <p style="font-size: 0.85rem; color: #666; margin-top: 0.3rem;"><em>Dress Code: Business casual (dressiest evening - bring jacket)</em></p>
+                                </div>
+                            </div>
+                            
+                            <div class="schedule-card day-4">
+                                <h4 style="color: #6c757d; margin-bottom: 0.5rem;">Saturday, June 28 - Departure</h4>
+                                <div>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>10:30 AM:</strong> Depart hotel via Luxury Transport (Hotel Lobby)</p>
+                                    <p style="font-size: 0.9rem; margin: 0.2rem 0;"><strong>4:35 PM:</strong> Flight departs YVR to PHX</p>
+                                    <p style="font-size: 0.85rem; color: #e74c3c; margin-top: 0.5rem;"><em>Important: 10:30 AM departure allows 5+ hours before flight</em></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert-box info" style="margin-top: 1.5rem;">
+                            <h5 style="margin-bottom: 0.5rem;">Dress Code Summary</h5>
+                            <p style="font-size: 0.9rem;">• <strong>Business Casual:</strong> Slacks, skirts, sport shirts, dresses, blouses</p>
+                            <p style="font-size: 0.9rem;">• <strong>Activities:</strong> Comfortable, weather-appropriate clothing</p>
+                            <p style="font-size: 0.9rem;">• <strong>Evenings:</strong> Bring sweater or jacket for cooler temperatures</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="app" class="tab-content">
+                    <div style="margin-top: 1.5rem;">
+                        <h3 style="color: #2c3e50; margin-bottom: 1rem;">Cvent Events Meeting App</h3>
+                        
+                        <div class="alert-box primary">
+                            <h4 style="margin-bottom: 0.5rem;">Download Instructions</h4>
+                            <ol style="margin: 0.5rem 0 0 1.2rem; padding: 0;">
+                                <li style="margin-bottom: 0.5rem;">Download "Cvent Events" from App Store (iOS 14+) or Google Play (Android 10+)</li>
+                                <li style="margin-bottom: 0.5rem;">Search for: <strong>REvolution</strong></li>
+                                <li style="margin-bottom: 0.5rem;">Select: <strong>REvolution Board of Directors Meeting – June 2025</strong></li>
+                                <li style="margin-bottom: 0.5rem;">Enter Event ID: <strong>CRL 25REvolutionWhistler</strong> (note space after CRL)</li>
+                                <li style="margin-bottom: 0.5rem;">Log in with your registration email</li>
+                                <li>Enter verification code sent to your email/phone</li>
+                            </ol>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                            <div class="alert-box success">
+                                <h5 style="margin-bottom: 0.5rem;">Important Setup Steps</h5>
+                                <p style="font-size: 0.9rem;">✓ Allow notifications for updates</p>
+                                <p style="font-size: 0.9rem;">✓ Complete your profile</p>
+                                <p style="font-size: 0.9rem;">✓ Upload a profile photo</p>
+                            </div>
+                            
+                            <div class="alert-box warning">
+                                <h5 style="margin-bottom: 0.5rem;">Guest Access</h5>
+                                <p style="font-size: 0.9rem;">Guests must register first at:</p>
+                                <p style="font-size: 0.9rem;"><a href="https://cvent.me/ZzDaDL">cvent.me/ZzDaDL</a></p>
+                                <p style="font-size: 0.85rem;">Then follow same app steps</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-box" style="margin-top: 1.5rem;">
+                            <h5 style="color: #2c3e50; margin-bottom: 0.5rem;">App Features</h5>
+                            <p style="font-size: 0.9rem;">• Meeting schedule and updates</p>
+                            <p style="font-size: 0.9rem;">• Destination information</p>
+                            <p style="font-size: 0.9rem;">• Real-time notifications for changes</p>
+                            <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">
+                                <em>Note: Activities and dine-arounds cannot be changed through the app</em>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Document Reference Guide -->
+        <div class="card full-width-card" style="background: #f8f9fa;">
+            <div class="card-header">
+                <h2 class="card-title">Document Reference Guide</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1rem;">
+                <div class="doc-card blue">
+                    <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Member Summary (January 31, 2025)</h4>
+                    <p style="font-size: 0.9rem; color: #666;">Shows your equity calculation: $371,314 total equity before IBNR. Details your underwriting performance and fund balances. Note: IBNR reserves are calculated at the captive level and will reduce distributable equity.</p>
+                </div>
+                <div class="doc-card red">
+                    <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Renewal Indication 2025-2026 (Page 4)</h4>
+                    <p style="font-size: 0.9rem; color: #666;">Shows premium increase: $595,402 to $703,404 (+18.1%). Breaks down loss funds vs. operating costs.</p>
+                </div>
+                <div class="doc-card green">
+                    <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Loss History Analysis (Monthly LHA)</h4>
+                    <p style="font-size: 0.9rem; color: #666;">Tracks your claims by coverage type. April 2025 shows 8 total claims: 3 WC, 4 AL, 0 GL, 1 APD.</p>
+                </div>
+                <div class="doc-card orange">
+                    <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Exposure Trends 2025-2026 (Page 5)</h4>
+                    <p style="font-size: 0.9rem; color: #666;">Shows detailed exposure growth: 5% weighted average plus 2% inflation = 7.1% growth-related increase.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript for functionality -->
+    <script>
+        // Tab switching function
+        function showMeetingTab(tabName) {
+            const meetingTabsContainer = document.getElementById('meeting-tabs-container');
+            if (!meetingTabsContainer) return;
+            
+            // Hide all tab contents
+            const tabContents = meetingTabsContainer.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+                content.classList.remove('active');
+            });
+            
+            // Show selected tab
+            const selectedTab = meetingTabsContainer.querySelector(`#${tabName}`);
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+                selectedTab.classList.add('active');
+            }
+            
+            // Update active tab button
+            const tabButtons = document.querySelectorAll('.tab');
+            tabButtons.forEach(button => {
+                if (button.onclick && button.onclick.toString().includes('showMeetingTab')) {
+                    if (button.onclick.toString().includes(tabName)) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

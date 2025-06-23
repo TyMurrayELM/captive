@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renewal Information - Encore Landscape Management</title>
+    
+    <!-- Embedded Styles for Mobile Responsiveness -->
+    <style>
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+        }
+        
+        #renewal-info {
+            padding: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* KPI Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .kpi-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .kpi-item.clickable {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .kpi-item.clickable:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .kpi-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .full-width-card {
+            width: 100%;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        /* Info Icons */
+        .info-icon {
+            width: 24px;
+            height: 24px;
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            cursor: help;
+            transition: all 0.3s ease;
+        }
+        
+        .info-icon:hover {
+            background: #2980b9;
+            transform: scale(1.1);
+        }
+        
+        .info-tooltip {
+            display: none;
+            position: absolute;
+            background: #2c3e50;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            width: 250px;
+            top: 30px;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .info-icon:hover + .info-tooltip {
+            display: block;
+        }
+        
+        /* Metrics */
+        .metric {
+            margin-bottom: 1.5rem;
+        }
+        
+        .metric-label {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        /* Breakdown Chart */
+        .breakdown-chart {
+            margin: 1.5rem 0;
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .breakdown-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .breakdown-item.total {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            font-weight: 700;
+        }
+        
+        .breakdown-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+        }
+        
+        .breakdown-icon {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3498db;
+            flex-shrink: 0;
+        }
+        
+        .breakdown-value {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .breakdown-amount {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .breakdown-percent {
+            font-size: 0.85rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            background: #e9ecef;
+            color: #666;
+        }
+        
+        /* Modal */
+        .kpi-modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            display: none;
+        }
+        
+        .kpi-modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 700px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .kpi-modal-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        
+        .kpi-modal-close:hover,
+        .kpi-modal-close:focus {
+            color: #000;
+        }
+        
+        #kpi-modal-body {
+            padding: 2rem;
+        }
+        
+        /* Mobile Responsive Styles */
+        @media (max-width: 1024px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #renewal-info {
+                padding: 1rem;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+            
+            .kpi-item {
+                padding: 1.2rem;
+                min-height: 120px;
+            }
+            
+            .kpi-value {
+                font-size: 2rem;
+            }
+            
+            .kpi-label {
+                font-size: 0.8rem;
+            }
+            
+            .card {
+                padding: 1.2rem;
+                border-radius: 10px;
+            }
+            
+            .card:hover {
+                transform: none;
+            }
+            
+            .card-header {
+                padding-bottom: 0.8rem;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+            }
+            
+            .metric-value {
+                font-size: 1.8rem;
+            }
+            
+            .kpi-modal-content {
+                width: 95%;
+                margin: 2% auto;
+                max-height: 98vh;
+                overflow-y: auto;
+            }
+            
+            #kpi-modal-body {
+                padding: 1.2rem;
+            }
+            
+            .kpi-modal-close {
+                padding: 8px 16px;
+            }
+            
+            /* Breakdown items on mobile */
+            .breakdown-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .breakdown-value {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            /* Font size adjustments */
+            body {
+                font-size: 0.95rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            h3 {
+                font-size: 1.1rem;
+            }
+            
+            h4 {
+                font-size: 1rem;
+            }
+            
+            p, div {
+                font-size: 0.9rem;
+            }
+            
+            small {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            
+            .kpi-item {
+                padding: 1.2rem;
+            }
+            
+            .kpi-value {
+                font-size: 2rem;
+            }
+            
+            .kpi-label {
+                font-size: 0.85rem;
+            }
+            
+            /* Info tooltip - Convert to tap instead of hover */
+            .info-icon:active + .info-tooltip,
+            .info-icon:focus + .info-tooltip {
+                display: block;
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                max-width: 90vw;
+                z-index: 1001;
+            }
+        }
+        
+        /* Touch-friendly adjustments */
+        @media (hover: none) and (pointer: coarse) {
+            .kpi-item.clickable {
+                min-height: 44px;
+            }
+            
+            .card:hover {
+                transform: none;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            }
+            
+            .breakdown-item:hover {
+                background: #f8f9fa;
+                transform: none;
+            }
+            
+            .kpi-item.clickable:hover {
+                transform: none;
+            }
+        }
+        
+        /* Landscape orientation adjustments */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .kpi-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .info-icon,
+            .kpi-modal {
+                display: none !important;
+            }
+            
+            .card {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Renewal Info Section -->
+    <div id="renewal-info" class="section">
+        <!-- KPI Summary -->
+        <div class="kpi-grid">
+            <div class="kpi-item clickable" onclick="showKPIDetail('renewal-premium')">
+                <div class="kpi-value">$703,404</div>
+                <div class="kpi-label">Annual Premium (Renewal)</div>
+                <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem;">Click for breakdown</div>
+            </div>
+            <div class="kpi-item clickable" onclick="showKPIDetail('premium-increase')">
+                <div class="kpi-value">+18.1%</div>
+                <div class="kpi-label">Premium Increase</div>
+                <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem;">Click for details</div>
+            </div>
+            <div class="kpi-item clickable" onclick="showKPIDetail('monthly-renewal')">
+                <div class="kpi-value">$58,617</div>
+                <div class="kpi-label">Monthly Premium (Renewal)</div>
+                <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem;">Click for calculation</div>
+            </div>
+            <div class="kpi-item clickable" onclick="showKPIDetail('business-growth')">
+                <div class="kpi-value">5.0%</div>
+                <div class="kpi-label">Your Business Growth</div>
+                <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem;">Click for details</div>
+            </div>
+        </div>
+        
+        <!-- KPI Detail Modal -->
+        <div id="kpi-modal" class="kpi-modal">
+            <div class="kpi-modal-content">
+                <span class="kpi-modal-close" onclick="closeKPIModal()">&times;</span>
+                <div id="kpi-modal-body">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Enhanced Renewal Information Card -->
+        <div class="card full-width-card">
+            <div class="card-header">
+                <h2 class="card-title">2025/26 Renewal Analysis</h2>
+                <div style="position: relative;">
+                    <div class="info-icon">?</div>
+                    <div class="info-tooltip">
+                        Detailed breakdown of your premium increase showing how much is due to your business growth versus external factors.
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div>
+                    <div class="metric">
+                        <div class="metric-label">Annual Premium Change</div>
+                        <div class="metric-value">$703,404</div>
+                        <small style="color: #e74c3c;">+$108,002 (+18.1%) from current</small>
+                    </div>
+                </div>
+                <div>
+                    <div class="metric">
+                        <div class="metric-label">Monthly Premium Impact</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                            <div>
+                                <div style="font-size: 0.9rem; color: #7f8c8d;">Current:</div>
+                                <div style="font-size: 1.3rem; font-weight: 600;">$49,617/mo</div>
+                            </div>
+                            <div style="font-size: 1.5rem;">→</div>
+                            <div>
+                                <div style="font-size: 0.9rem; color: #7f8c8d;">Renewal:</div>
+                                <div style="font-size: 1.3rem; font-weight: 600; color: #e74c3c;">$58,617/mo</div>
+                            </div>
+                        </div>
+                        <small style="color: #666;">+$9,000/month increase</small>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: #2c3e50;">Premium Increase Breakdown: What's Driving the Change?</h3>
+            
+            <div class="breakdown-chart">
+                <div class="breakdown-item">
+                    <div class="breakdown-label">
+                        <div class="breakdown-icon" style="background: #3498db;"></div>
+                        <span><strong>Your Business Growth</strong> (Exposure increases)</span>
+                    </div>
+                    <div class="breakdown-value">
+                        <span class="breakdown-amount">+$29,770</span>
+                        <span class="breakdown-percent">5.0%</span>
+                    </div>
+                </div>
+                
+                <div class="breakdown-item">
+                    <div class="breakdown-label">
+                        <div class="breakdown-icon" style="background: #f39c12;"></div>
+                        <span><strong>Inflation Adjustment</strong> (Cost of claims rising)</span>
+                    </div>
+                    <div class="breakdown-value">
+                        <span class="breakdown-amount">+$11,908</span>
+                        <span class="breakdown-percent">2.0%</span>
+                    </div>
+                </div>
+                
+                <div class="breakdown-item">
+                    <div class="breakdown-label">
+                        <div class="breakdown-icon" style="background: #e74c3c;"></div>
+                        <span><strong>Reinsurance Rate Increase</strong> (AIG Auto Liability)</span>
+                    </div>
+                    <div class="breakdown-value">
+                        <span class="breakdown-amount">+$17,862</span>
+                        <span class="breakdown-percent">3.0%</span>
+                    </div>
+                </div>
+                
+                <div class="breakdown-item">
+                    <div class="breakdown-label">
+                        <div class="breakdown-icon" style="background: #9b59b6;"></div>
+                        <span><strong>Loss Fund & Other Adjustments</strong></span>
+                    </div>
+                    <div class="breakdown-value">
+                        <span class="breakdown-amount">+$48,462</span>
+                        <span class="breakdown-percent">8.1%</span>
+                    </div>
+                </div>
+                
+                <div class="breakdown-item total">
+                    <div class="breakdown-label">
+                        <strong>TOTAL INCREASE</strong>
+                    </div>
+                    <div class="breakdown-value">
+                        <span class="breakdown-amount">+$108,002</span>
+                        <span class="breakdown-percent" style="background: #2196f3; color: white;">18.1%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #e3f2fd; border-radius: 8px;">
+                <h4 style="color: #1565c0; margin-bottom: 0.5rem;">Key Takeaways:</h4>
+                <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0; color: #1565c0; font-size: 0.9rem;">
+                    <li style="margin-bottom: 0.3rem;"><strong>39% of the increase ($41,678)</strong> is directly related to your business growth and inflation</li>
+                    <li style="margin-bottom: 0.3rem;"><strong>61% of the increase ($66,324)</strong> is due to external factors (reinsurance and loss fund adjustments)</li>
+                    <li style="margin-bottom: 0.3rem;">Your excellent 18% loss ratio helps moderate what could have been a larger increase</li>
+                    <li>The AIG Auto Liability reinsurance increase affects all REvolution members, not just Encore</li>
+                </ul>
+            </div>
+            
+            <div class="metric" style="margin-top: 1.5rem;">
+                <div class="metric-label">Your Exposure Growth Details</div>
+                <div style="margin-top: 0.5rem; padding: 0.8rem; background: #f8f9fa; border-radius: 6px; font-size: 0.85rem;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div>
+                            <strong>Workers Comp Payroll:</strong>
+                            <div>$9.28M → $9.48M (+2.2%)</div>
+                        </div>
+                        <div>
+                            <strong>General Liability Payroll:</strong>
+                            <div>$6.05M → $6.25M (+3.3%)</div>
+                        </div>
+                        <div>
+                            <strong>Auto Liability Units:</strong>
+                            <div>105 → 113 vehicles (+7.6%)</div>
+                        </div>
+                        <div>
+                            <strong>Auto Physical Damage:</strong>
+                            <div>152 → 162 units (+6.6%)</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid #dee2e6;">
+                        <strong>Weighted Average Growth:</strong> 5.0% (This reflects your business expansion)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric">
+                <div class="metric-label">Premium Components Comparison</div>
+                <div style="margin-top: 0.5rem;">
+                    <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">
+                        <span>Loss Funds (A + B):</span>
+                        <div>
+                            <span style="color: #666;">Current: $185,360</span>
+                            <span style="margin: 0 0.5rem;">→</span>
+                            <span style="font-weight: 600;">Renewal: $424,204 (+129%)</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                        <span>Operating Costs:</span>
+                        <div>
+                            <span style="color: #666;">Current: $410,042</span>
+                            <span style="margin: 0 0.5rem;">→</span>
+                            <span style="font-weight: 600;">Renewal: $279,200 (-32%)</span>
+                        </div>
+                    </div>
+                </div>
+                <small style="color: #666; display: block; margin-top: 0.5rem;">
+                    Note: The significant increase in loss funds and decrease in operating costs reflects a rebalancing of the premium structure.
+                </small>
+            </div>
+            
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #fff3cd; border-radius: 8px; font-size: 0.85rem;">
+                <strong>Important Context:</strong>
+                <ul style="margin: 0.3rem 0 0 1.2rem; padding: 0;">
+                    <li>This is your first renewal in REvolution - initial year premiums are often adjusted based on actual experience</li>
+                    <li>Industry-wide Auto Liability claims have increased, prompting the 3% reinsurance rate increase</li>
+                    <li>Your strong loss performance (18% loss ratio) demonstrates excellent risk management</li>
+                    <li>All service provider costs remain unchanged except for the AIG reinsurance</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Renewal Recommendations -->
+        <div class="card full-width-card">
+            <div class="card-header">
+                <h2 class="card-title">Renewal Recommendations</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div style="padding: 1rem; background: #d4edda; border-radius: 8px;">
+                    <h4 style="color: #155724; margin-bottom: 0.5rem;">Continue Your Participation</h4>
+                    <p style="color: #155724; font-size: 0.9rem;">Despite the increase, your excellent loss performance shows the captive is working well for you. Your equity continues to grow.</p>
+                </div>
+                <div style="padding: 1rem; background: #cce5ff; border-radius: 8px;">
+                    <h4 style="color: #004085; margin-bottom: 0.5rem;">Focus on Auto Liability</h4>
+                    <p style="color: #004085; font-size: 0.9rem;">With AL claims trending up and reinsurance rates increasing, implement enhanced driver safety programs to control future losses.</p>
+                </div>
+                <div style="padding: 1rem; background: #fff3cd; border-radius: 8px;">
+                    <h4 style="color: #856404; margin-bottom: 0.5rem;">Plan for Growth</h4>
+                    <p style="color: #856404; font-size: 0.9rem;">Your business is expanding. The 5% exposure growth shows healthy business development that the captive can support.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript for functionality -->
+    <script>
+        // KPI Modal Functions
+        function showKPIDetail(type) {
+            const modal = document.getElementById('kpi-modal');
+            const modalBody = document.getElementById('kpi-modal-body');
+            
+            if (!modal || !modalBody) {
+                console.error('KPI modal elements not found');
+                return;
+            }
+            
+            let content = '';
+            
+            switch(type) {
+                case 'renewal-premium':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Renewal Premium Breakdown</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #3498db; margin-bottom: 1rem;">$703,404 Annual Premium</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Coverage Breakdown:</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #e9ecef;">
+                                            <th style="padding: 0.8rem; text-align: left;">Coverage Type</th>
+                                            <th style="padding: 0.8rem; text-align: right;">Annual Premium</th>
+                                            <th style="padding: 0.8rem; text-align: center;">% of Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Workers Compensation</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$185,400</td>
+                                            <td style="text-align: center; padding: 0.8rem;">26.3%</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Auto Liability</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$345,000</td>
+                                            <td style="text-align: center; padding: 0.8rem;">49.0%</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">General Liability</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$75,600</td>
+                                            <td style="text-align: center; padding: 0.8rem;">10.7%</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Auto Physical Damage</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$97,404</td>
+                                            <td style="text-align: center; padding: 0.8rem;">13.8%</td>
+                                        </tr>
+                                        <tr style="background: #e3f2fd;">
+                                            <td style="padding: 0.8rem; font-weight: 700;">Total Premium</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$703,404</td>
+                                            <td style="text-align: center; padding: 0.8rem; font-weight: 700;">100%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div style="background: #d1ecf1; padding: 1rem; border-radius: 6px;">
+                                <h5 style="color: #0c5460; margin-bottom: 0.5rem;">Premium Components:</h5>
+                                <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0; color: #0c5460; font-size: 0.9rem;">
+                                    <li style="margin-bottom: 0.3rem;">Loss Funds (A+B): $424,204 (60.3%)</li>
+                                    <li style="margin-bottom: 0.3rem;">Operating Costs: $279,200 (39.7%)</li>
+                                    <li>Policy Period: August 1, 2025 - August 1, 2026</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'premium-increase':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Premium Increase Analysis</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #e74c3c; margin-bottom: 1rem;">+18.1% Total Increase</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">What's Driving the Increase?</h4>
+                                <div style="background: white; padding: 1rem; border-radius: 6px;">
+                                    <div style="margin-bottom: 1rem;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                                            <span><strong>Current Annual Premium:</strong></span>
+                                            <span style="font-size: 1.1rem;">$595,402</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                                            <span><strong>Renewal Annual Premium:</strong></span>
+                                            <span style="font-size: 1.1rem; color: #e74c3c;">$703,404</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
+                                            <span><strong>Total Increase:</strong></span>
+                                            <span style="font-size: 1.1rem; font-weight: 700;">+$108,002</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                                <h5 style="color: #856404; margin-bottom: 0.5rem;">Increase Breakdown:</h5>
+                                <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0; color: #856404; font-size: 0.9rem;">
+                                    <li style="margin-bottom: 0.3rem;">Your Business Growth (5.0%): +$29,770</li>
+                                    <li style="margin-bottom: 0.3rem;">Inflation Adjustment (2.0%): +$11,908</li>
+                                    <li style="margin-bottom: 0.3rem;">AIG Reinsurance Increase (3.0%): +$17,862</li>
+                                    <li>Loss Fund & Other Adjustments (8.1%): +$48,462</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="background: #cfe2ff; padding: 1rem; border-radius: 6px;">
+                                <h5 style="color: #084298; margin-bottom: 0.5rem;">Important Context:</h5>
+                                <p style="margin: 0; color: #084298; font-size: 0.9rem;">
+                                    Only 39% of the increase is related to your business growth and inflation. The majority (61%) is due to external factors affecting all captive members. Your excellent loss ratio is actually helping to moderate this increase.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'monthly-renewal':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Monthly Premium Calculation</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #3498db; margin-bottom: 1rem;">$58,617 Monthly Premium</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Calculation:</h4>
+                                <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #dee2e6;">
+                                    <p style="margin: 0; font-size: 1.1rem; text-align: center;">
+                                        <strong>Monthly Premium = Annual Premium ÷ 12</strong>
+                                    </p>
+                                    <p style="margin: 1rem 0 0; text-align: center; color: #666;">
+                                        $703,404 ÷ 12 = $58,617
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                                <h5 style="color: #856404; margin-bottom: 0.5rem;">Monthly Increase Impact:</h5>
+                                <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0; color: #856404; font-size: 0.9rem;">
+                                    <li style="margin-bottom: 0.3rem;">Current Monthly: $49,617</li>
+                                    <li style="margin-bottom: 0.3rem;">Renewal Monthly: $58,617</li>
+                                    <li>Monthly Increase: +$9,000</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="background: #d1ecf1; padding: 1rem; border-radius: 6px;">
+                                <h5 style="color: #0c5460; margin-bottom: 0.5rem;">Monthly Coverage Breakdown:</h5>
+                                <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0; color: #0c5460; font-size: 0.9rem;">
+                                    <li style="margin-bottom: 0.3rem;">Workers Compensation: $15,450/month</li>
+                                    <li style="margin-bottom: 0.3rem;">Auto Liability: $28,750/month</li>
+                                    <li style="margin-bottom: 0.3rem;">General Liability: $6,300/month</li>
+                                    <li>Auto Physical Damage: $8,117/month</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'business-growth':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Business Growth Analysis</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #27ae60; margin-bottom: 1rem;">5.0% Weighted Average Growth</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Exposure Changes by Coverage:</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #e9ecef;">
+                                            <th style="padding: 0.8rem; text-align: left;">Coverage Type</th>
+                                            <th style="padding: 0.8rem; text-align: center;">Current</th>
+                                            <th style="padding: 0.8rem; text-align: center;">Renewal</th>
+                                            <th style="padding: 0.8rem; text-align: center;">Growth</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">WC Payroll</td>
+                                            <td style="text-align: center; padding: 0.8rem;">$9.28M</td>
+                                            <td style="text-align: center; padding: 0.8rem;">$9.48M</td>
+                                            <td style="text-align: center; padding: 0.8rem; color: #27ae60;">+2.2%</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">GL Payroll</td>
+                                            <td style="text-align: center; padding: 0.8rem;">$6.05M</td>
+                                            <td style="text-align: center; padding: 0.8rem;">$6.25M</td>
+                                            <td style="text-align: center; padding: 0.8rem; color: #27ae60;">+3.3%</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">AL Vehicles</td>
+                                            <td style="text-align: center; padding: 0.8rem;">105</td>
+                                            <td style="text-align: center; padding: 0.8rem;">113</td>
+                                            <td style="text-align: center; padding: 0.8rem; color: #27ae60;">+7.6%</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">APD Units</td>
+                                            <td style="text-align: center; padding: 0.8rem;">152</td>
+                                            <td style="text-align: center; padding: 0.8rem;">162</td>
+                                            <td style="text-align: center; padding: 0.8rem; color: #27ae60;">+6.6%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div style="background: #d4edda; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                                <h5 style="color: #155724; margin-bottom: 0.5rem;">Growth Impact on Premium:</h5>
+                                <p style="margin: 0; color: #155724; font-size: 0.9rem;">
+                                    Your 5% business growth accounts for $29,770 of the premium increase. This is a normal and expected increase as your business expands - more employees, vehicles, and operations require proportionally more coverage.
+                                </p>
+                            </div>
+                            
+                            <div style="background: #cfe2ff; padding: 1rem; border-radius: 6px;">
+                                <h5 style="color: #084298; margin-bottom: 0.5rem;">Positive Sign:</h5>
+                                <p style="margin: 0; color: #084298; font-size: 0.9rem;">
+                                    Business growth indicates healthy expansion. The captive structure allows you to benefit from this growth through increased equity accumulation, assuming continued strong loss performance.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                default:
+                    content = '<p>Details not available for this metric.</p>';
+            }
+            
+            modalBody.innerHTML = content;
+            modal.style.display = 'block';
+        }
+        
+        function closeKPIModal() {
+            const modal = document.getElementById('kpi-modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('kpi-modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

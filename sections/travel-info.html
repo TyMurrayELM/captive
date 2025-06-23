@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Information - Encore Landscape Management</title>
+    
+    <!-- Embedded Styles for Mobile Responsiveness -->
+    <style>
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+        }
+        
+        #travel-info {
+            padding: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .full-width-card {
+            width: 100%;
+            background: #f0f8ff;
+            border: 2px solid #3498db;
+        }
+        
+        .card-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 0.5rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: #e9ecef;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex: 0 0 auto;
+        }
+        
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .tab:hover:not(.active) {
+            background: #dee2e6;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Passenger Details */
+        .passenger-details {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .passenger-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+        
+        .passenger-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        /* Info Boxes */
+        .info-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .info-box.outbound {
+            border-left: 4px solid #3498db;
+        }
+        
+        .info-box.return {
+            border-left: 4px solid #27ae60;
+        }
+        
+        .alert-box {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .alert-box.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .alert-box.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .alert-box.danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .alert-box.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        /* Emergency Cards */
+        .emergency-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .emergency-card.medical {
+            border: 2px solid #e74c3c;
+        }
+        
+        .emergency-card.consulate {
+            border: 2px solid #3498db;
+        }
+        
+        /* Timeline */
+        .timeline-item {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-item.day1 {
+            background: #fff3cd;
+        }
+        
+        .timeline-item.day2 {
+            background: #d1ecf1;
+        }
+        
+        .timeline-item.day3 {
+            background: #e8f4fd;
+        }
+        
+        .timeline-item.day4 {
+            background: #f8f9fa;
+        }
+        
+        /* Contact Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .contact-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .contact-card h5 {
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            #travel-info {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.2rem;
+                border-radius: 10px;
+            }
+            
+            .card-header {
+                padding-bottom: 0.8rem;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+            }
+            
+            .tabs {
+                gap: 0.5rem;
+                padding-bottom: 0.5rem;
+            }
+            
+            .tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+                flex: 1 1 auto;
+                min-width: fit-content;
+            }
+            
+            .passenger-info {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Font size adjustments */
+            body {
+                font-size: 0.95rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            h3 {
+                font-size: 1.1rem;
+            }
+            
+            h4 {
+                font-size: 1rem;
+            }
+            
+            p, div {
+                font-size: 0.9rem;
+            }
+            
+            small {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-box {
+                padding: 1rem;
+            }
+            
+            .emergency-card {
+                padding: 1rem;
+            }
+        }
+        
+        /* Touch-friendly adjustments */
+        @media (hover: none) and (pointer: coarse) {
+            .tab {
+                min-height: 44px;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .tabs {
+                display: none !important;
+            }
+            
+            .tab-content {
+                display: block !important;
+                page-break-before: always;
+            }
+            
+            .card {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Travel Info Section -->
+    <div id="travel-info" class="section">
+        <!-- Travel Information Card -->
+        <div class="card full-width-card">
+            <div class="card-header">
+                <h2 class="card-title">✈️ Your Travel Information - REvolution Board Meeting</h2>
+            </div>
+            <div class="tabs">
+                <button class="tab active" onclick="showTravelTab('flights')">Flights</button>
+                <button class="tab" onclick="showTravelTab('transport')">Airport Transport</button>
+                <button class="tab" onclick="showTravelTab('itinerary')">Full Itinerary</button>
+                <button class="tab" onclick="showTravelTab('emergency')">Emergency Info</button>
+            </div>
+            
+            <div id="travel-tabs-container">
+                <div id="flights" class="tab-content active">
+                    <div class="alert-box success">
+                        <h4 style="margin-bottom: 0.5rem;">✅ Booking Confirmed</h4>
+                        <p style="font-size: 1.1rem; margin: 0;"><strong>Booking Reference:</strong> 4KUETI</p>
+                        <p style="font-size: 0.9rem; margin-top: 0.3rem;">TravelPerk Trip ID: 27558237</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 1.5rem;">
+                        <div class="info-box outbound">
+                            <h3 style="color: #3498db; margin-bottom: 1rem;">✈️ Outbound Flight</h3>
+                            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">PHX → YVR</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Date:</strong> Tuesday, June 24, 2025</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Airline:</strong> Air Canada</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Flight:</strong> AC 8817</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Departure:</strong> 6:00 AM (PHX)</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Arrival:</strong> 9:15 AM (YVR)</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Duration:</strong> 3h 15m</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Terminal:</strong> 4 at PHX</div>
+                            <div style="margin-top: 0.8rem; padding: 0.8rem; background: #e3f2fd; border-radius: 6px;">
+                                <p style="margin: 0; font-size: 0.9rem;"><strong>Check-in opens:</strong> June 23 at 6:00 AM</p>
+                                <p style="margin: 0.3rem 0 0; font-size: 0.85rem; color: #666;">Business class includes priority check-in</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-box return" style="border-left-color: #27ae60;">
+                            <h3 style="color: #27ae60; margin-bottom: 1rem;">✈️ Return Flight</h3>
+                            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">YVR → PHX</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Date:</strong> Saturday, June 28, 2025</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Airline:</strong> Air Canada</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Flight:</strong> AC 8810</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Departure:</strong> 4:35 PM (YVR)</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Arrival:</strong> 7:42 PM (PHX)</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Duration:</strong> 3h 07m</div>
+                            <div style="margin-bottom: 0.3rem;"><strong>Terminal:</strong> T4 Intl at PHX</div>
+                            <div style="margin-top: 0.8rem; padding: 0.8rem; background: #d4edda; border-radius: 6px;">
+                                <p style="margin: 0; font-size: 0.9rem;"><strong>Hotel Departure:</strong> 10:30 AM</p>
+                                <p style="margin: 0.3rem 0 0; font-size: 0.85rem; color: #155724;">Luxury Transport pre-arranged</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #2c3e50;">👥 Passenger Details</h3>
+                    
+                    <div class="passenger-details">
+                        <div class="passenger-name">Tyler Shannon Murray</div>
+                        <div class="passenger-info">
+                            <div><strong>Seat (Outbound):</strong> 1F</div>
+                            <div><strong>Seat (Return):</strong> 1D</div>
+                            <div><strong>Ticket Number:</strong> 014-7290545776</div>
+                            <div><strong>Cabin Class:</strong> Business</div>
+                        </div>
+                    </div>
+                    
+                    <div class="passenger-details">
+                        <div class="passenger-name">Michael Joseph Difabbio</div>
+                        <div class="passenger-info">
+                            <div><strong>Seat (Outbound):</strong> 2D</div>
+                            <div><strong>Seat (Return):</strong> 1F</div>
+                            <div><strong>Ticket Number:</strong> 014-7290545773</div>
+                            <div><strong>Cabin Class:</strong> Business</div>
+                        </div>
+                    </div>
+                    
+                    <div class="passenger-details">
+                        <div class="passenger-name">Juan Isidro Hernandez</div>
+                        <div class="passenger-info">
+                            <div><strong>Seat (Outbound):</strong> 1A</div>
+                            <div><strong>Seat (Return):</strong> 1A</div>
+                            <div><strong>Ticket Number:</strong> 014-7290545775</div>
+                            <div><strong>Cabin Class:</strong> Business</div>
+                            <div><strong>Check-in Email:</strong> juan.13905283@travelperktrips.com</div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-box warning" style="margin-top: 1.5rem;">
+                        <h4 style="margin-bottom: 0.5rem;">✓ Flight Checklist</h4>
+                        <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">
+                            <li>Valid passport required (expires after Dec 28, 2025)</li>
+                            <li>Arrive at airport 2 hours before departure</li>
+                            <li>Business class includes 2 checked bags (50 lbs each)</li>
+                            <li>Priority boarding and lounge access included</li>
+                            <li>Check-in online starting June 23 at 6:00 AM</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div id="transport" class="tab-content">
+                    <div class="alert-box danger">
+                        <h4 style="margin-bottom: 0.5rem;">⚠️ Important: No Taxis/Uber Between Vancouver & Whistler</h4>
+                        <p style="margin: 0;">The 2.5-hour mountain route has no taxi, Uber, or Lyft service. Your transportation is pre-arranged with Luxury Transport.</p>
+                    </div>
+                    
+                    <h3 style="color: #2c3e50; margin-bottom: 1rem;">🚗 Pre-Arranged Transportation</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                        <div class="info-box">
+                            <h4 style="color: #3498db; margin-bottom: 0.5rem;">Arrival Transfer (June 24)</h4>
+                            <p style="font-size: 1rem; margin: 0.3rem 0;"><strong>YVR Airport → Fairmont Chateau Whistler</strong></p>
+                            <p style="margin: 0.3rem 0;">📍 <strong>Pickup:</strong> YVR Airport Arrivals</p>
+                            <p style="margin: 0.3rem 0;">🕐 <strong>Time:</strong> After 9:15 AM arrival</p>
+                            <p style="margin: 0.3rem 0;">🚗 <strong>Service:</strong> Luxury Transport</p>
+                            <p style="margin: 0.3rem 0;">⏱️ <strong>Duration:</strong> ~2.5 hours</p>
+                            <div style="margin-top: 0.8rem; padding: 0.8rem; background: #e3f2fd; border-radius: 6px;">
+                                <p style="margin: 0; font-size: 0.85rem; color: #0c5460;"><strong>Note:</strong> Driver will meet you at baggage claim with your name on a sign</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-box">
+                            <h4 style="color: #27ae60; margin-bottom: 0.5rem;">Departure Transfer (June 28)</h4>
+                            <p style="font-size: 1rem; margin: 0.3rem 0;"><strong>Fairmont Chateau Whistler → YVR Airport</strong></p>
+                            <p style="margin: 0.3rem 0;">📍 <strong>Pickup:</strong> Hotel Main Lobby</p>
+                            <p style="margin: 0.3rem 0;">🕐 <strong>Time:</strong> 10:30 AM sharp</p>
+                            <p style="margin: 0.3rem 0;">🚗 <strong>Service:</strong> Luxury Transport</p>
+                            <p style="margin: 0.3rem 0;">✈️ <strong>For:</strong> 4:35 PM flight</p>
+                            <div style="margin-top: 0.8rem; padding: 0.8rem; background: #d4edda; border-radius: 6px;">
+                                <p style="margin: 0; font-size: 0.85rem; color: #155724;"><strong>Buffer:</strong> Allows 5+ hours before flight (recommended for international)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-box info" style="margin-top: 1.5rem;">
+                        <h4 style="margin-bottom: 0.5rem;">📞 Transportation Contacts</h4>
+                        <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">
+                            <li><strong>Luxury Transport:</strong> (604) 522-8484</li>
+                            <li><strong>Hotel Concierge:</strong> 604-938-2006</li>
+                            <li><strong>If you miss your driver:</strong> Call Luxury Transport immediately</li>
+                            <li><strong>Alternative:</strong> Contact hotel concierge for assistance</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                        <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">🚖 Local Transportation in Whistler</h4>
+                        <p style="margin: 0.3rem 0;">• <strong>Within Whistler Village:</strong> Most venues are walkable</p>
+                        <p style="margin: 0.3rem 0;">• <strong>Local Taxis:</strong> Available for short trips within Whistler</p>
+                        <p style="margin: 0.3rem 0;">• <strong>Resort Shuttle:</strong> Free shuttle service around Whistler</p>
+                        <p style="margin: 0.3rem 0;">• <strong>Hotel Concierge:</strong> Can arrange any local transportation</p>
+                    </div>
+                </div>
+                
+                <div id="itinerary" class="tab-content">
+                    <h3 style="color: #2c3e50; margin-bottom: 1rem;">📅 Complete Itinerary</h3>
+                    
+                    <div class="timeline-item day1">
+                        <h4 style="color: #856404;">Tuesday, June 24</h4>
+                        <p>✈️ 6:00 AM - Depart Phoenix (PHX)</p>
+                        <p>✈️ 9:15 AM - Arrive Vancouver (YVR)</p>
+                        <p>🚗 9:45 AM - Meet driver at baggage claim</p>
+                        <p>🏔️ 12:30 PM - Arrive at Fairmont Chateau Whistler</p>
+                        <p style="font-size: 0.9rem; color: #666; margin-left: 1rem;"><em>4599 Chateau Blvd, Whistler, BC V8E 0Z5</em></p>
+                        <p>🥂 6:00 PM - Welcome Reception (Hotel)</p>
+                        <p>🍽️ 7:00 PM - Welcome Dinner (Hotel - Wildflower Restaurant)</p>
+                    </div>
+                    
+                    <div class="timeline-item day2">
+                        <h4 style="color: #0c5460;">Wednesday, June 25</h4>
+                        <p>🍳 7:30 AM - Breakfast (Hotel)</p>
+                        <p>👥 8:30 AM-12:00 PM - Business Sessions</p>
+                        <p>🍽️ 12:00-1:00 PM - Lunch (Hotel)</p>
+                        <p>🎿 1:00-5:00 PM - Free Time / Optional Activities</p>
+                        <p style="font-size: 0.9rem; color: #666; margin-left: 1rem;"><em>Golf, Spa, Village exploration available</em></p>
+                        <p>🥂 6:00-6:45 PM - Reception (Hotel)</p>
+                        <p>🍽️ 7:00-9:30 PM - Dine Around Options</p>
+                    </div>
+                    
+                    <div class="timeline-item day3">
+                        <h4 style="color: #0c5460;">Thursday, June 26</h4>
+                        <p>🍳 7:30 AM - Breakfast</p>
+                        <p>🚡 9:00 AM - Peak 2 Peak Gondola Experience</p>
+                        <p style="font-size: 0.9rem; color: #666; margin-left: 1rem;"><em>11-minute ride between Whistler & Blackcomb mountains</em></p>
+                        <p>🍽️ 12:00 PM - Mountaintop Lunch</p>
+                        <p>🎿 2:00-5:00 PM - Free Time</p>
+                        <p>🥂 6:00-6:45 PM - Reception (Hotel)</p>
+                        <p>🍽️ 7:00-9:30 PM - Dine Around at Hy's Steakhouse</p>
+                        <p style="font-size: 0.9rem; color: #666; margin-left: 1rem;"><em>4308 Main St, Whistler</em></p>
+                    </div>
+                    
+                    <div class="timeline-item day3" style="background: #e8f4fd;">
+                        <h4 style="color: #2980b9;">Friday, June 27</h4>
+                        <p>🍳 7:30 AM - Breakfast</p>
+                        <p>👥 8:30-9:30 AM - Shareholders Meeting</p>
+                        <p>📋 9:30-10:30 AM - Board of Directors Meeting</p>
+                        <p>☕ 10:30-10:45 AM - Break</p>
+                        <p>📊 10:45 AM-12:00 PM - Committee Meetings</p>
+                        <p>🍽️ 12:00-12:45 PM - Member Lunch</p>
+                        <p>📋 12:45-4:00 PM - Board Meeting (Continued)</p>
+                        <p>🥂 6:30-7:15 PM - President's Reception (Hotel Terrace)</p>
+                        <p>🍽️ 7:15-10:00 PM - President's Dinner (Hotel Terrace)</p>
+                        <p style="font-size: 0.9rem; color: #666;"><em>Dress: Business casual (dressiest evening)</em></p>
+                    </div>
+                    
+                    <div class="timeline-item day4">
+                        <h4 style="color: #666;">Saturday, June 28</h4>
+                        <p>🍳 Breakfast on your own</p>
+                        <p>🚗 10:30 AM - Depart hotel via Luxury Transport (Hotel Lobby)</p>
+                        <p>✈️ 4:35 PM - Depart Vancouver (YVR)</p>
+                        <p>✈️ 7:42 PM - Arrive Phoenix (PHX)</p>
+                    </div>
+                    
+                    <div class="alert-box info" style="margin-top: 1.5rem;">
+                        <h4 style="margin-bottom: 0.5rem;">📋 Meeting Locations</h4>
+                        <p style="margin: 0.3rem 0;">• <strong>Business Sessions:</strong> Macdonald Ballroom</p>
+                        <p style="margin: 0.3rem 0;">• <strong>Breakout Rooms:</strong> Frontenac Room (Claims), Wedgewood Room (UW)</p>
+                        <p style="margin: 0.3rem 0;">• <strong>Meals:</strong> Various hotel restaurants and local venues</p>
+                        <p style="margin: 0.3rem 0;">• <strong>Reception/Dinner:</strong> Hotel Terrace (weather permitting)</p>
+                    </div>
+                </div>
+                
+                <div id="emergency" class="tab-content">
+                    <h3 style="color: #e74c3c; margin-bottom: 1rem;">🚨 Emergency Contacts</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                        <div class="emergency-card medical">
+                            <h4 style="color: #e74c3c;">Medical Emergency</h4>
+                            <p style="font-size: 1.1rem; font-weight: 600;">Whistler Medical Clinic</p>
+                            <p>4380 Lorimer Road, 2nd Floor</p>
+                            <p>Whistler, BC V8E 1A7</p>
+                            <p style="font-size: 1.2rem; color: #e74c3c; font-weight: 600;">📞 +1 604-932-3977</p>
+                            <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;"><em>For emergencies, dial 911</em></p>
+                        </div>
+                        
+                        <div class="emergency-card consulate">
+                            <h4 style="color: #3498db;">U.S. Consulate</h4>
+                            <p style="font-size: 1.1rem; font-weight: 600;">U.S. Consulate Vancouver</p>
+                            <p>1075 West Pender Street</p>
+                            <p>Vancouver, BC V6E 2M6</p>
+                            <p style="font-size: 1.2rem; color: #3498db; font-weight: 600;">📞 +1 604-685-4311</p>
+                            <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;"><em>After hours emergency: +1 613-238-5335</em></p>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: #2c3e50; margin-top: 2rem; margin-bottom: 1rem;">📞 Important Contacts</h3>
+                    
+                    <div class="contact-grid">
+                        <div class="contact-card">
+                            <h5>Meeting Coordinator</h5>
+                            <p style="font-size: 0.9rem; margin: 0.3rem 0;">Tracy Doherty: tdoherty@captiveresources.com</p>
+                            <p style="font-size: 0.9rem; margin: 0.3rem 0;">Sarah Colgan: scolgan@captiveresources.com</p>
+                        </div>
+                        <div class="contact-card">
+                            <h5>Hotel Concierge</h5>
+                            <p style="font-size: 0.9rem; margin: 0.3rem 0;">Phone: 604-938-2006</p>
+                            <p style="font-size: 0.9rem; margin: 0.3rem 0;">Email: CWR.concierge@fairmont.com</p>
+                        </div>
+                        <div class="contact-card">
+                            <h5>Travel Assistance</h5>
+                            <p style="font-size: 0.9rem; margin: 0.3rem 0;">Options Travel: 800-899-4380</p>
+                            <p style="font-size: 0.9rem; margin: 0.3rem 0;">Email: captive@optionstravel.com</p>
+                        </div>
+                        <div class="contact-card">
+                            <h5>Captive Executives</h5>
+                            <p style="font-size: 0.9rem; margin: 0.3rem 0;">Jon De Wulf: 847-230-8409</p>
+                            <p style="font-size: 0.9rem; margin: 0.3rem 0;">Jake Doherty: 847-944-9859</p>
+                        </div>
+                        <div class="contact-card">
+                            <h5>Luxury Transport</h5>
+                            <p style="font-size: 0.9rem; margin: 0.3rem 0;">Primary: (604) 522-8484</p>
+                            <p style="font-size: 0.9rem; margin: 0.3rem 0;">For missed pickups or changes</p>
+                        </div>
+                        <div class="contact-card">
+                            <h5>Airlines</h5>
+                            <p style="font-size: 0.9rem; margin: 0.3rem 0;">Air Canada: 1-888-247-2262</p>
+                            <p style="font-size: 0.9rem; margin: 0.3rem 0;">For flight changes/cancellations</p>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-box warning" style="margin-top: 1.5rem;">
+                        <h4 style="margin-bottom: 0.5rem;">💳 Currency & Payment</h4>
+                        <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">
+                            <li>Canadian currency (CAD) - Currently ~1.35 CAD per 1 USD</li>
+                            <li>Credit cards widely accepted</li>
+                            <li>ATMs available in Whistler Village</li>
+                            <li>Notify your bank of international travel</li>
+                            <li>No foreign transaction fees with some cards</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="alert-box info" style="margin-top: 1rem;">
+                        <h4 style="margin-bottom: 0.5rem;">📱 Connectivity</h4>
+                        <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">
+                            <li>Hotel WiFi: Complimentary for all guests</li>
+                            <li>International roaming: Check with your carrier</li>
+                            <li>Local SIM cards: Available at YVR Airport</li>
+                            <li>WhatsApp/iMessage work on WiFi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript for functionality -->
+    <script>
+        // Tab switching function
+        function showTravelTab(tabName) {
+            const travelTabsContainer = document.getElementById('travel-tabs-container');
+            if (!travelTabsContainer) return;
+            
+            // Hide all tab contents
+            const tabContents = travelTabsContainer.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+                content.classList.remove('active');
+            });
+            
+            // Show selected tab
+            const selectedTab = travelTabsContainer.querySelector(`#${tabName}`);
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+                selectedTab.classList.add('active');
+            }
+            
+            // Update active tab button
+            const tabButtons = document.querySelectorAll('.tab');
+            tabButtons.forEach(button => {
+                if (button.onclick && button.onclick.toString().includes('showTravelTab')) {
+                    if (button.onclick.toString().includes(tabName)) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

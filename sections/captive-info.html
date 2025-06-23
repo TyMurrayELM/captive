@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captive Information - Encore Landscape Management</title>
+    
+    <!-- Embedded Styles for Mobile Responsiveness -->
+    <style>
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        #captive-info {
+            padding: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Educational Section */
+        .education-section {
+            background: #f0f7fc;
+            border-left: 4px solid #3498db;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .education-section:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .education-section h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .education-section p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* Key Terms */
+        .key-terms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .term {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .term:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .term-name {
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .term-definition {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .full-width-card {
+            width: 100%;
+        }
+        
+        .card-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        .card-content {
+            padding: 0;
+        }
+        
+        /* Equity Grid */
+        .equity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .equity-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .equity-label {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+        
+        .equity-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .equity-value.negative {
+            color: #e74c3c;
+        }
+        
+        .equity-value.positive {
+            color: #27ae60;
+        }
+        
+        /* Distribution Methods */
+        .distribution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .distribution-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .distribution-item.blue {
+            border-left: 4px solid #3498db;
+        }
+        
+        .distribution-item.green {
+            border-left: 4px solid #27ae60;
+        }
+        
+        .distribution-item.red {
+            border-left: 4px solid #e74c3c;
+        }
+        
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .benefit-card {
+            padding: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .benefit-card.green {
+            background: #d4edda;
+        }
+        
+        .benefit-card.blue {
+            background: #cce5ff;
+        }
+        
+        .benefit-card.yellow {
+            background: #fff3cd;
+        }
+        
+        .benefit-card.red {
+            background: #f8d7da;
+        }
+        
+        .benefit-card.gray {
+            background: #e2e3e5;
+        }
+        
+        .benefit-card.teal {
+            background: #d1ecf1;
+        }
+        
+        /* Alert Boxes */
+        .alert-box {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .alert-box.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .alert-box.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        /* Share Investment Boxes */
+        .share-box {
+            padding: 0.8rem;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        /* Mobile Responsive Styles */
+        @media (max-width: 1024px) {
+            .key-terms {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .benefits-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #captive-info {
+                padding: 1rem;
+            }
+            
+            .education-section {
+                padding: 1.2rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .education-section h3 {
+                font-size: 1.3rem;
+            }
+            
+            .card {
+                padding: 1.2rem;
+                border-radius: 10px;
+            }
+            
+            .card:hover {
+                transform: none;
+            }
+            
+            .card-header {
+                padding-bottom: 0.8rem;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+            }
+            
+            .key-terms {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            
+            .term {
+                padding: 0.8rem;
+            }
+            
+            .equity-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+            
+            .equity-value {
+                font-size: 1.3rem;
+            }
+            
+            .distribution-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            /* Font size adjustments */
+            body {
+                font-size: 0.95rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            h3 {
+                font-size: 1.1rem;
+            }
+            
+            h4 {
+                font-size: 1rem;
+            }
+            
+            p, div {
+                font-size: 0.9rem;
+            }
+            
+            small {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .education-section {
+                padding: 1rem;
+                border-left-width: 3px;
+            }
+            
+            .education-section h3 {
+                font-size: 1.2rem;
+            }
+            
+            .equity-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .equity-item {
+                padding: 0.8rem;
+            }
+            
+            .term-name {
+                font-size: 1rem;
+            }
+            
+            .term-definition {
+                font-size: 0.85rem;
+            }
+            
+            .benefit-card {
+                padding: 0.8rem;
+            }
+            
+            .alert-box {
+                padding: 1rem;
+            }
+        }
+        
+        /* Touch-friendly adjustments */
+        @media (hover: none) and (pointer: coarse) {
+            .term:hover,
+            .card:hover,
+            .benefit-card:hover {
+                transform: none;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .card {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .education-section {
+                page-break-inside: avoid;
+            }
+        }
+        
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+        
+        .mb-1 {
+            margin-bottom: 1rem;
+        }
+        
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+        
+        .mt-1 {
+            margin-top: 1rem;
+        }
+        
+        .mt-2 {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Captive Info Section -->
+    <div id="captive-info" class="section">
+        <!-- Educational Section -->
+        <div class="education-section">
+            <h3>Understanding Your Captive Insurance</h3>
+            <p><strong>What is a Captive Insurance Company?</strong> REvolution Insurance, Ltd. is a group captive - a member-owned insurance company formed by 31 unrelated businesses. Instead of paying premiums to a traditional insurer where money is lost forever, you and other members own shares in your own insurance company. The captive reinsures the first $300,000 of each claim, sharing risk among all members while maintaining individual performance tracking.</p>
+            <p><strong>How REvolution Works:</strong> You pay premiums into the captive, which are used to pay claims and operating costs. The captive invests surplus funds according to conservative guidelines. If losses are lower than expected, you benefit through retained earnings and potential dividends. With no single member's risk exceeding 5% of total risks, true risk distribution is achieved while you maintain control over your insurance costs.</p>
+            
+            <div class="key-terms">
+                <div class="term">
+                    <div class="term-name">A Fund</div>
+                    <div class="term-definition">Pays the first $100,000 of any claim. This is your primary risk layer.</div>
+                </div>
+                <div class="term">
+                    <div class="term-name">B Fund</div>
+                    <div class="term-definition">Covers claims from $100,001 to $400,000. Shared among all members for risk distribution.</div>
+                </div>
+                <div class="term">
+                    <div class="term-name">Loss Ratio</div>
+                    <div class="term-definition">Your claims divided by earned premium. Shows what percentage of your premium goes to claims. Lower is better - under 60% is excellent!</div>
+                </div>
+                <div class="term">
+                    <div class="term-name">Equity</div>
+                    <div class="term-definition">Your accumulated profits in the captive. Premium paid minus claims and expenses = equity growth!</div>
+                </div>
+                <div class="term">
+                    <div class="term-name">IBNR</div>
+                    <div class="term-definition">Incurred But Not Reported reserves. Money set aside for claims that have happened but haven't been reported yet.</div>
+                </div>
+                <div class="term">
+                    <div class="term-name">Reinsurance Structure</div>
+                    <div class="term-definition">The captive reinsures the first $300,000 of each claim. Claims above this attach to the commercial reinsurance market.</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Share Purchase Section -->
+        <div class="education-section" style="background: #f0f8ff; border-left-color: #3498db;">
+            <h3>Your $36,000 Share Investment</h3>
+            <p><strong>Why did I purchase shares?</strong> To participate in the captive, each member purchases one Unit consisting of:</p>
+            <div style="margin: 1rem 0;">
+                <div class="share-box">
+                    <strong>Common Share ($100):</strong> Gives you voting rights and control. Each member gets one vote regardless of company size, ensuring democratic governance.
+                </div>
+                <div class="share-box">
+                    <strong>Preferred Share ($35,900):</strong> Your economic interest in the captive. This is where dividends and distributions are paid based on your individual performance.
+                </div>
+            </div>
+            <p style="font-size: 0.9rem; margin-top: 1rem;">This one-time investment makes you a true owner in the insurance company, not just a customer. The captive structure has been approved by the IRS for tax-deductible premium payments while maintaining true risk transfer.</p>
+        </div>
+        
+        <!-- Equity Explanation Box -->
+        <div class="education-section" style="background: #e8f8f5; border-left-color: #27ae60;">
+            <h3>Understanding Your $371,314 Equity</h3>
+            <p><strong>What is Equity?</strong> Think of it as your savings account in the captive. Here is how it builds:</p>
+            <div class="equity-grid">
+                <div class="equity-item">
+                    <div class="equity-label">You pay premiums</div>
+                    <div class="equity-value">$595,402</div>
+                </div>
+                <div class="equity-item">
+                    <div class="equity-label">Minus claims paid</div>
+                    <div class="equity-value negative">-$30,557</div>
+                </div>
+                <div class="equity-item">
+                    <div class="equity-label">Minus operating costs</div>
+                    <div class="equity-value negative">-$119,980</div>
+                </div>
+                <div class="equity-item">
+                    <div class="equity-label">Plus investment income</div>
+                    <div class="equity-value positive">+$6,196</div>
+                </div>
+            </div>
+            <p style="margin-top: 1rem;"><strong>Bottom Line:</strong> Your excellent loss performance means you are building wealth in the captive. Every year you pay premiums and have low losses, your equity grows through retained underwriting profits plus investment income.</p>
+            <p style="margin-top: 0.8rem; padding: 0.8rem; background: #fff3cd; border-radius: 6px; font-size: 0.9rem;">
+                <strong>Note on IBNR:</strong> Your $371,314 is equity "before IBNR." IBNR (Incurred But Not Reported) reserves are set aside at the captive level for claims that may have occurred but haven't been reported yet. These reserves reduce distributable equity but protect all members from unexpected future claims.
+            </p>
+        </div>
+        
+        <!-- Distributions and Returns Section -->
+        <div class="card full-width-card">
+            <div class="card-header">
+                <h2 class="card-title">How and When You Get Returns</h2>
+            </div>
+            <div class="card-content">
+                <div class="mb-2">
+                    <h3 style="color: #2c3e50; margin-bottom: 1rem;">Distribution Methods</h3>
+                    <p>When your A Fund and B Fund have surplus after all losses and reserves, the Board of Directors can authorize returns through:</p>
+                    <div class="distribution-grid">
+                        <div class="distribution-item blue">
+                            <h4 style="color: #3498db; margin-bottom: 0.5rem;">Preferred Share Dividends</h4>
+                            <p style="font-size: 0.9rem;">Direct cash payments to you as the Preferred shareholder</p>
+                        </div>
+                        <div class="distribution-item green">
+                            <h4 style="color: #27ae60; margin-bottom: 0.5rem;">Premium Credits</h4>
+                            <p style="font-size: 0.9rem;">Reductions applied to future year premium assessments</p>
+                        </div>
+                        <div class="distribution-item red">
+                            <h4 style="color: #e74c3c; margin-bottom: 0.5rem;">Policyholder Distributions</h4>
+                            <p style="font-size: 0.9rem;">Payments through the insurance program structure</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert-box warning">
+                    <h3 style="color: #856404; margin-bottom: 1rem;">⏱️ Important Timing Information</h3>
+                    <p style="font-weight: 600; margin-bottom: 0.5rem;">Standard Timeline: 4-5 Year Minimum Wait</p>
+                    <p>Each policy year is typically closed 4-5 years after it ends to ensure all claims are properly developed and reserved. For example:</p>
+                    <ul style="margin: 0.5rem 0 1rem 1.2rem;">
+                        <li>2020 policy year → Closes in 2024-2025</li>
+                        <li>2021 policy year → Closes in 2025-2026</li>
+                    </ul>
+                    <p style="font-size: 0.9rem;"><strong>Why the wait?</strong> Insurance claims can take years to be reported and settled. This conservative approach protects all members by ensuring adequate reserves before any distributions.</p>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;"><strong>Exception:</strong> The Board may authorize interim dividends at their discretion if loss development is very favorable, but this is not guaranteed.</p>
+                </div>
+                
+                <div class="alert-box success">
+                    <h4 style="margin-bottom: 0.5rem;">If You Leave the Captive</h4>
+                    <p style="font-size: 0.9rem;">You still receive distributions for all policy years you participated in, but must wait the full 4-5 years for each year to close. Your shares are redeemed within 60 days after your last policy year closes.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- How Captives Benefit You -->
+        <div class="card full-width-card">
+            <div class="card-header">
+                <h2 class="card-title">Why Participate in a Captive?</h2>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card green">
+                    <h4 style="color: #155724; margin-bottom: 0.5rem;">Control Your Insurance Costs</h4>
+                    <p style="color: #155724; font-size: 0.9rem;">Unlike traditional insurance where premiums are lost forever, captive members can recoup underwriting profits through dividends when losses are low. Your excellent 18% loss ratio shows this in action.</p>
+                </div>
+                <div class="benefit-card blue">
+                    <h4 style="color: #004085; margin-bottom: 0.5rem;">Investment Income</h4>
+                    <p style="color: #004085; font-size: 0.9rem;">Surplus funds are invested according to conservative guidelines. Investment income is allocated to your A and B Funds, growing your equity even in years with normal losses.</p>
+                </div>
+                <div class="benefit-card yellow">
+                    <h4 style="color: #856404; margin-bottom: 0.5rem;">Tax Benefits</h4>
+                    <p style="color: #856404; font-size: 0.9rem;">Premiums paid to the captive remain tax-deductible business expenses, while you build equity in a regulated insurance company structure approved by the IRS.</p>
+                </div>
+                <div class="benefit-card red">
+                    <h4 style="color: #721c24; margin-bottom: 0.5rem;">Better Coverage & Control</h4>
+                    <p style="color: #721c24; font-size: 0.9rem;">Access to reinsurance markets and coverage that might not be available individually. Plus, member-owners control underwriting standards and loss prevention requirements.</p>
+                </div>
+                <div class="benefit-card gray">
+                    <h4 style="color: #383d41; margin-bottom: 0.5rem;">Risk Sharing with Peers</h4>
+                    <p style="color: #383d41; font-size: 0.9rem;">Share risk with 30 other quality companies while maintaining individual performance tracking. No member's risk exceeds 5% of total, ensuring true risk distribution.</p>
+                </div>
+                <div class="benefit-card teal">
+                    <h4 style="color: #0c5460; margin-bottom: 0.5rem;">Long-Term Value</h4>
+                    <p style="color: #0c5460; font-size: 0.9rem;">Build equity over time that can fund future insurance needs or be returned through dividends. Your $371,314 equity demonstrates this wealth-building potential.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

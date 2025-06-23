@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Information - Encore Landscape Management</title>
+    
+    <!-- Embedded Styles for Mobile Responsiveness -->
+    <style>
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+        }
+        
+        #financial-info {
+            padding: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* KPI Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .kpi-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .kpi-item.clickable {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .kpi-item.clickable:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .kpi-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        /* Info Icons */
+        .info-icon {
+            width: 24px;
+            height: 24px;
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            cursor: help;
+            transition: all 0.3s ease;
+        }
+        
+        .info-icon:hover {
+            background: #2980b9;
+            transform: scale(1.1);
+        }
+        
+        .info-tooltip {
+            display: none;
+            position: absolute;
+            background: #2c3e50;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            width: 250px;
+            top: 30px;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .info-icon:hover + .info-tooltip {
+            display: block;
+        }
+        
+        /* Metrics */
+        .metric {
+            margin-bottom: 1.5rem;
+        }
+        
+        .metric-label {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 0.5rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: #e9ecef;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex: 0 0 auto;
+        }
+        
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .tab:hover:not(.active) {
+            background: #dee2e6;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Charts */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin: 1rem 0;
+        }
+        
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -1rem;
+            padding: 0 1rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        
+        th {
+            background: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        /* Modal */
+        .kpi-modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            display: none;
+        }
+        
+        .kpi-modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 700px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .kpi-modal-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        
+        .kpi-modal-close:hover,
+        .kpi-modal-close:focus {
+            color: #000;
+        }
+        
+        #kpi-modal-body {
+            padding: 2rem;
+        }
+        
+        /* Mobile Scroll Hint */
+        .mobile-scroll-hint {
+            display: none;
+            font-size: 0.75rem;
+            color: #666;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            background: #ecf0f1;
+            height: 20px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-target {
+            position: absolute;
+            right: 40%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e74c3c;
+        }
+        
+        /* Mobile Responsive Styles */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #financial-info {
+                padding: 1rem;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+            
+            .kpi-item {
+                padding: 1.2rem;
+                min-height: 120px;
+            }
+            
+            .kpi-value {
+                font-size: 2rem;
+            }
+            
+            .kpi-label {
+                font-size: 0.8rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .card {
+                padding: 1.2rem;
+                border-radius: 10px;
+            }
+            
+            .card:hover {
+                transform: none;
+            }
+            
+            .card-header {
+                padding-bottom: 0.8rem;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+            
+            .tabs {
+                gap: 0.5rem;
+                padding-bottom: 0.5rem;
+            }
+            
+            .tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+                flex: 1 1 auto;
+                min-width: fit-content;
+            }
+            
+            table {
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 0.6rem !important;
+            }
+            
+            .mobile-scroll-hint {
+                display: block;
+            }
+            
+            .metric-value {
+                font-size: 1.8rem;
+            }
+            
+            .kpi-modal-content {
+                width: 95%;
+                margin: 2% auto;
+                max-height: 98vh;
+                overflow-y: auto;
+            }
+            
+            #kpi-modal-body {
+                padding: 1.2rem;
+            }
+            
+            .kpi-modal-close {
+                padding: 8px 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            
+            .kpi-item {
+                padding: 1.2rem;
+            }
+            
+            .kpi-value {
+                font-size: 2rem;
+            }
+            
+            .kpi-label {
+                font-size: 0.85rem;
+            }
+            
+            /* Info tooltip - Convert to tap instead of hover */
+            .info-icon:active + .info-tooltip,
+            .info-icon:focus + .info-tooltip {
+                display: block;
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                max-width: 90vw;
+                z-index: 1001;
+            }
+        }
+        
+        /* Touch-friendly adjustments */
+        @media (hover: none) and (pointer: coarse) {
+            .tab,
+            .kpi-item.clickable {
+                min-height: 44px;
+            }
+            
+            .card:hover {
+                transform: none;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            }
+            
+            .kpi-item.clickable:hover {
+                transform: none;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .tabs,
+            .info-icon,
+            .mobile-scroll-hint,
+            .kpi-modal {
+                display: none !important;
+            }
+            
+            .card {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            body {
+                background: white;
+            }
+        }
+    </style>
+    
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <!-- Financial Info Section -->
+    <div id="financial-info" class="section">
+        <!-- KPI Summary -->
+        <div class="kpi-grid">
+            <div class="kpi-item clickable" onclick="showKPIDetail('equity')">
+                <div class="kpi-value">$371,314</div>
+                <div class="kpi-label">Total Equity (Before IBNR)</div>
+                <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem;">Click for calculation</div>
+            </div>
+            <div class="kpi-item clickable" onclick="showKPIDetail('premium')">
+                <div class="kpi-value">$49,617</div>
+                <div class="kpi-label">Monthly Premium (Current)</div>
+                <div style="font-size: 0.8rem; opacity: 0.8;">$595,402 annual</div>
+                <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem;">Click for breakdown</div>
+            </div>
+            <div class="kpi-item clickable" onclick="showKPIDetail('lossratio')">
+                <div class="kpi-value">18.0%</div>
+                <div class="kpi-label">Current Loss Ratio</div>
+                <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem;">Click for calculation</div>
+            </div>
+            <div class="kpi-item clickable" onclick="showKPIDetail('claims')">
+                <div class="kpi-value">8</div>
+                <div class="kpi-label">Total Claims YTD</div>
+                <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem;">Click for details</div>
+            </div>
+        </div>
+        
+        <!-- KPI Detail Modal -->
+        <div id="kpi-modal" class="kpi-modal">
+            <div class="kpi-modal-content">
+                <span class="kpi-modal-close" onclick="closeKPIModal()">&times;</span>
+                <div id="kpi-modal-body">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-grid">
+            <!-- Financial Summary Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Financial Summary</h2>
+                    <div style="position: relative;">
+                        <div class="info-icon">?</div>
+                        <div class="info-tooltip">
+                            This shows your current financial position in the captive. Positive equity means you have more assets than liabilities. Your premium builds these funds, and claims reduce them.
+                        </div>
+                    </div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Available Cash</div>
+                    <div class="metric-value">$101,530</div>
+                    <small style="color: #666;">A Fund: $51,530 | B Fund: $50,000</small>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Total Assets</div>
+                    <div class="metric-value">$451,395</div>
+                    <small style="color: #666;">Includes premium receivables</small>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Total Liabilities</div>
+                    <div class="metric-value">$80,081</div>
+                    <small style="color: #666;">Claims reserves and expenses</small>
+                </div>
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #e8f8f5; border-radius: 8px;">
+                    <div style="font-size: 0.9rem; color: #27ae60; font-weight: 600;">Healthy Financial Position</div>
+                    <div style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">Your equity covers 464% of liabilities</div>
+                </div>
+            </div>
+            
+            <!-- Performance Metrics Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Performance Metrics</h2>
+                    <div style="position: relative;">
+                        <div class="info-icon">?</div>
+                        <div class="info-tooltip">
+                            Key performance indicators show how well your captive is performing. Lower loss ratios mean better profitability.
+                        </div>
+                    </div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Premium to Date</div>
+                    <div class="metric-value">$198,467</div>
+                    <small style="color: #666;">4 months (Aug-Nov 2024)</small>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Claims Paid</div>
+                    <div class="metric-value">$35,703</div>
+                    <small style="color: #666;">18% loss ratio - Target is below 60%</small>
+                    <div style="margin-top: 0.5rem;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 18%;"></div>
+                            <div class="progress-target"></div>
+                            <span style="position: absolute; right: 38%; top: -20px; font-size: 0.75rem; color: #e74c3c;">Target 60%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Claims by Coverage</div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600;">WC</div>
+                            <div>3 claims</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600;">AL</div>
+                            <div>4 claims</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600;">GL</div>
+                            <div>0 claims</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600;">APD</div>
+                            <div>1 claim</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Full-width cards section -->
+        <div style="margin-top: 1.5rem;">
+            <!-- Claims Trend Chart -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <h2 class="card-title">Claims Trend Analysis (Policy Year 2024/25)</h2>
+                </div>
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab('trend')">Monthly Trend</button>
+                    <button class="tab" onclick="showTab('coverage')">By Coverage Type</button>
+                    <button class="tab" onclick="showTab('development')">Claims Development</button>
+                    <button class="tab" onclick="showTab('claims')">Claim Details</button>
+                </div>
+                <div id="trend" class="tab-content active">
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                    <div style="margin-top: 0.8rem; padding: 0.6rem; background: #e9ecef; border-radius: 6px; font-size: 0.85rem; color: #666;">
+                        <strong>Note:</strong> Shows full policy year from August 2024 to April 2025.
+                    </div>
+                </div>
+                <div id="coverage" class="tab-content">
+                    <div class="chart-container">
+                        <canvas id="coverageChart"></canvas>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <h4>Coverage Breakdown</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                                <strong>Workers Compensation:</strong> 3 claims - $5,512 paid
+                            </li>
+                            <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                                <strong>Auto Liability:</strong> 4 claims - $26,488 paid
+                            </li>
+                            <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                                <strong>General Liability:</strong> 0 claims - $0 paid
+                            </li>
+                            <li style="padding: 0.5rem 0;">
+                                <strong>Auto Physical Damage:</strong> 1 claim - $7,693 paid
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="development" class="tab-content">
+                    <div class="chart-container">
+                        <canvas id="developmentChart"></canvas>
+                    </div>
+                </div>
+                <div id="claims" class="tab-content">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coverage</th>
+                                    <th style="text-align: center;">Count</th>
+                                    <th style="text-align: right;">Paid</th>
+                                    <th style="text-align: right;">Reserved</th>
+                                    <th style="text-align: right;">Total Incurred</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Workers Compensation</td>
+                                    <td style="text-align: center;">3</td>
+                                    <td style="text-align: right;">$5,012</td>
+                                    <td style="text-align: right;">$488</td>
+                                    <td style="text-align: right;">$5,500</td>
+                                </tr>
+                                <tr>
+                                    <td>Auto Liability</td>
+                                    <td style="text-align: center;">4</td>
+                                    <td style="text-align: right;">$12,998</td>
+                                    <td style="text-align: right;">$13,490</td>
+                                    <td style="text-align: right;">$26,488</td>
+                                </tr>
+                                <tr>
+                                    <td>General Liability</td>
+                                    <td style="text-align: center;">0</td>
+                                    <td style="text-align: right;">$0</td>
+                                    <td style="text-align: right;">$0</td>
+                                    <td style="text-align: right;">$0</td>
+                                </tr>
+                                <tr>
+                                    <td>Auto Physical Damage</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: right;">$7,693</td>
+                                    <td style="text-align: right;">$0</td>
+                                    <td style="text-align: right;">$7,693</td>
+                                </tr>
+                                <tr style="font-weight: 700; background: #f8f9fa;">
+                                    <td>TOTAL</td>
+                                    <td style="text-align: center;">8</td>
+                                    <td style="text-align: right;">$25,703</td>
+                                    <td style="text-align: right;">$13,978</td>
+                                    <td style="text-align: right;">$39,681</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mobile-scroll-hint">← Scroll horizontally to see all columns →</div>
+                    </div>
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: #d1ecf1; border-radius: 8px;">
+                        <h5 style="color: #0c5460; margin-bottom: 0.5rem;">Key Observations:</h5>
+                        <ul style="list-style: none; padding: 0; color: #0c5460; font-size: 0.9rem;">
+                            <li style="margin-bottom: 0.3rem;">✓ Auto Liability has the highest severity with $6,622 average per claim</li>
+                            <li style="margin-bottom: 0.3rem;">✓ Workers Compensation claims are well controlled at $1,833 average</li>
+                            <li style="margin-bottom: 0.3rem;">✓ No General Liability claims this year</li>
+                            <li>✓ Overall loss ratio of 18% is excellent (industry average 40-60%)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Premium & Equity Analysis Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Premium & Equity Analysis</h2>
+                    <div style="position: relative;">
+                        <div class="info-icon">?</div>
+                        <div class="info-tooltip">
+                            This shows how your premium contributes to equity growth and how claims impact your financial position.
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div>
+                        <h4 style="color: #2c3e50; margin-bottom: 1rem;">Premium Breakdown</h4>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                                <span>Workers Compensation</span>
+                                <strong>$13,083/mo</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                                <span>Auto Liability</span>
+                                <strong>$24,333/mo</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                                <span>General Liability</span>
+                                <strong>$5,333/mo</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                                <span>Auto Physical Damage</span>
+                                <strong>$6,867/mo</strong>
+                            </div>
+                            <div style="border-top: 2px solid #dee2e6; margin-top: 0.8rem; padding-top: 0.8rem; display: flex; justify-content: space-between;">
+                                <strong>Total Monthly Premium</strong>
+                                <strong style="color: #3498db;">$49,617</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 style="color: #2c3e50; margin-bottom: 1rem;">Equity Components</h4>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                                <span>A Fund Balance</span>
+                                <strong>$106,030</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                                <span>B Fund Balance</span>
+                                <strong>$46,361</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                                <span>Share Capital</span>
+                                <strong>$36,000</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                                <span>Retained Earnings</span>
+                                <strong>$182,923</strong>
+                            </div>
+                            <div style="border-top: 2px solid #dee2e6; margin-top: 0.8rem; padding-top: 0.8rem; display: flex; justify-content: space-between;">
+                                <strong>Total Equity</strong>
+                                <strong style="color: #27ae60;">$371,314</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #fef9e7; border-radius: 8px; border-left: 4px solid #f39c12;">
+                    <h5 style="color: #7d6608; margin-bottom: 0.5rem;">Your Equity Growth Formula:</h5>
+                    <p style="margin: 0; color: #7d6608; font-size: 0.9rem;">
+                        <strong>Premium Paid ($198,467)</strong> - <strong>Claims ($39,681)</strong> - <strong>Expenses (~15%)</strong> = <strong>Equity Growth</strong>
+                    </p>
+                    <p style="margin: 0.5rem 0 0; color: #7d6608; font-size: 0.85rem;">
+                        With your excellent 18% loss ratio, you're building equity faster than most members!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript for functionality -->
+    <script>
+        // Chart instances storage
+        let chartInstances = {};
+        
+        // Initialize charts when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+        });
+        
+        // Initialize all charts
+        function initializeCharts() {
+            // Destroy existing charts if any
+            Object.values(chartInstances).forEach(chart => {
+                if (chart) chart.destroy();
+            });
+            chartInstances = {};
+            
+            // Initialize trend chart
+            const trendCtx = document.getElementById('trendChart');
+            if (trendCtx) {
+                chartInstances.trend = new Chart(trendCtx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'],
+                        datasets: [{
+                            label: 'Claims Incurred',
+                            data: [0, 7693, 5500, 26488, 0, 0, 0, 0, 0],
+                            borderColor: '#e74c3c',
+                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                            tension: 0.3
+                        }, {
+                            label: 'Cumulative Claims',
+                            data: [0, 7693, 13193, 39681, 39681, 39681, 39681, 39681, 39681],
+                            borderColor: '#3498db',
+                            backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Initialize coverage chart
+            const coverageCtx = document.getElementById('coverageChart');
+            if (coverageCtx) {
+                chartInstances.coverage = new Chart(coverageCtx.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Workers Comp', 'Auto Liability', 'General Liability', 'Auto Physical Damage'],
+                        datasets: [{
+                            data: [5500, 26488, 0, 7693],
+                            backgroundColor: [
+                                '#3498db',
+                                '#e74c3c',
+                                '#27ae60',
+                                '#f39c12'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Initialize development chart
+            const developmentCtx = document.getElementById('developmentChart');
+            if (developmentCtx) {
+                chartInstances.development = new Chart(developmentCtx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Aug', 'Sep', 'Oct', 'Nov'],
+                        datasets: [{
+                            label: 'Paid',
+                            data: [0, 7693, 5012, 12998],
+                            backgroundColor: '#3498db'
+                        }, {
+                            label: 'Reserved',
+                            data: [0, 0, 488, 13490],
+                            backgroundColor: '#e74c3c'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                stacked: true
+                            },
+                            y: {
+                                stacked: true,
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Tab switching function
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            const selectedContent = document.getElementById(tabName);
+            if (selectedContent) {
+                selectedContent.style.display = 'block';
+                selectedContent.classList.add('active');
+            }
+            
+            // Add active class to clicked tab
+            const clickedTab = Array.from(tabs).find(tab => 
+                tab.onclick && tab.onclick.toString().includes(tabName)
+            );
+            if (clickedTab) {
+                clickedTab.classList.add('active');
+            }
+        }
+        
+        // KPI Modal Functions
+        function showKPIDetail(type) {
+            const modal = document.getElementById('kpi-modal');
+            const modalBody = document.getElementById('kpi-modal-body');
+            
+            if (!modal || !modalBody) {
+                console.error('KPI modal elements not found');
+                return;
+            }
+            
+            let content = '';
+            
+            switch(type) {
+                case 'equity':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Total Equity Calculation</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #3498db; margin-bottom: 1rem;">$371,314 Before IBNR</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Components of Your Equity:</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">A Fund Balance</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 600;">$106,030</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">B Fund Balance</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 600;">$46,361</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">Share Capital (Initial Investment)</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 600;">$36,000</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">Retained Earnings</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 600;">$182,923</td>
+                                    </tr>
+                                    <tr style="background: #e3f2fd;">
+                                        <td style="padding: 0.8rem; font-weight: 700;">Total Equity</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 700; color: #2196f3;">$371,314</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <div style="background: #fff3cd; padding: 1rem; border-radius: 6px;">
+                                <h5 style="color: #856404; margin-bottom: 0.5rem;">What is IBNR?</h5>
+                                <p style="margin: 0; color: #856404; font-size: 0.9rem;">
+                                    Incurred But Not Reported (IBNR) reserves are set aside for claims that have occurred but haven't been reported yet. Your actual available equity may be lower once IBNR is calculated at year-end.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'premium':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Monthly Premium Breakdown</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #3498db; margin-bottom: 1rem;">$49,617 Monthly / $595,402 Annual</h3>
+                            
+                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                                <thead>
+                                    <tr style="background: #e9ecef;">
+                                        <th style="padding: 0.8rem; text-align: left;">Coverage Type</th>
+                                        <th style="padding: 0.8rem; text-align: right;">Monthly</th>
+                                        <th style="padding: 0.8rem; text-align: right;">Annual</th>
+                                        <th style="padding: 0.8rem; text-align: center;">% of Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">Workers Compensation</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$13,083</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$157,000</td>
+                                        <td style="text-align: center; padding: 0.8rem;">26.4%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">Auto Liability</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$24,333</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$292,000</td>
+                                        <td style="text-align: center; padding: 0.8rem;">49.0%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">General Liability</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$5,333</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$64,000</td>
+                                        <td style="text-align: center; padding: 0.8rem;">10.7%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">Auto Physical Damage</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$6,867</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$82,402</td>
+                                        <td style="text-align: center; padding: 0.8rem;">13.8%</td>
+                                    </tr>
+                                    <tr style="background: #e3f2fd;">
+                                        <td style="padding: 0.8rem; font-weight: 700;">Total Premium</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$49,617</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$595,402</td>
+                                        <td style="text-align: center; padding: 0.8rem; font-weight: 700;">100%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <div style="background: #d1ecf1; padding: 1rem; border-radius: 6px;">
+                                <h5 style="color: #0c5460; margin-bottom: 0.5rem;">Premium Allocation</h5>
+                                <p style="margin: 0; color: #0c5460; font-size: 0.9rem;">
+                                    Auto Liability represents nearly half of your premium due to the higher risk exposure and potential severity of auto-related claims. Your Workers Compensation premium reflects your payroll and job classifications.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'lossratio':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Loss Ratio Calculation</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #27ae60; margin-bottom: 1rem;">18.0% Current Loss Ratio</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Calculation:</h4>
+                                <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #dee2e6;">
+                                    <p style="margin: 0; font-size: 1.1rem; text-align: center;">
+                                        <strong>Loss Ratio = (Claims Incurred ÷ Premium Earned) × 100</strong>
+                                    </p>
+                                    <p style="margin: 1rem 0 0; text-align: center; color: #666;">
+                                        ($35,703 ÷ $198,467) × 100 = 18.0%
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div style="background: #d4edda; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                                <h5 style="color: #155724; margin-bottom: 0.5rem;">Excellent Performance!</h5>
+                                <p style="margin: 0; color: #155724; font-size: 0.9rem;">
+                                    Your 18% loss ratio is significantly below the target of 60% and the industry average of 40-60%. This indicates excellent risk management and claims control.
+                                </p>
+                            </div>
+                            
+                            <div style="background: #cfe2ff; padding: 1rem; border-radius: 6px;">
+                                <h5 style="color: #084298; margin-bottom: 0.5rem;">Impact on Your Equity</h5>
+                                <p style="margin: 0; color: #084298; font-size: 0.9rem;">
+                                    A lower loss ratio means more of your premium dollars stay in the captive, building your equity. At 18%, approximately 82% of your premium (minus expenses) contributes to equity growth!
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'claims':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Claims Detail Summary</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #e74c3c; margin-bottom: 1rem;">8 Total Claims YTD</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Claims by Coverage Type:</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #e9ecef;">
+                                            <th style="padding: 0.8rem; text-align: left;">Coverage</th>
+                                            <th style="padding: 0.8rem; text-align: center;">Count</th>
+                                            <th style="padding: 0.8rem; text-align: right;">Total Incurred</th>
+                                            <th style="padding: 0.8rem; text-align: right;">Average</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Workers Compensation</td>
+                                            <td style="text-align: center; padding: 0.8rem;">3</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$5,500</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$1,833</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Auto Liability</td>
+                                            <td style="text-align: center; padding: 0.8rem;">4</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$26,488</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$6,622</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">General Liability</td>
+                                            <td style="text-align: center; padding: 0.8rem;">0</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$0</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$0</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Auto Physical Damage</td>
+                                            <td style="text-align: center; padding: 0.8rem;">1</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$7,693</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$7,693</td>
+                                        </tr>
+                                        <tr style="background: #fff3cd;">
+                                            <td style="padding: 0.8rem; font-weight: 700;">Total</td>
+                                            <td style="text-align: center; padding: 0.8rem; font-weight: 700;">8</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$39,681</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$4,960</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div style="background: #cfe2ff; padding: 1rem; border-radius: 6px;">
+                                <h5 style="color: #084298; margin-bottom: 0.5rem;">Claims Frequency Analysis</h5>
+                                <p style="margin: 0; color: #084298; font-size: 0.9rem;">
+                                    With 8 claims in 9 months, you're averaging less than 1 claim per month. Auto Liability shows the highest frequency (4 claims) and severity ($6,622 average), which is typical for landscape operations.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                default:
+                    content = '<p>Details not available for this metric.</p>';
+            }
+            
+            modalBody.innerHTML = content;
+            modal.style.display = 'block';
+        }
+        
+        function closeKPIModal() {
+            const modal = document.getElementById('kpi-modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('kpi-modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

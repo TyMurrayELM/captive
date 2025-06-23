@@ -1,0 +1,836 @@
+/* css/styles.css - Enhanced with Mobile Support */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rubik', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f5f7fa;
+    color: #2c3e50;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.header {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    font-family: 'Rubik', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 300;
+}
+
+.header .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Logistics Buttons */
+.logistics-button {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+    border: none;
+    color: #1a3a52;
+    padding: 0.75rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 0 0.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.logistics-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(155, 89, 182, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.logistics-button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.15), 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logistics-button:hover::before {
+    opacity: 1;
+}
+
+.logistics-button:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Main Navigation */
+.main-nav {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    padding: 1.2rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.nav-button:hover {
+    background: #f8f9fa;
+    color: #3498db;
+}
+
+.nav-button.active {
+    color: #3498db;
+    background: #f8f9fa;
+}
+
+.nav-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #3498db;
+}
+
+.main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.info-icon {
+    width: 24px;
+    height: 24px;
+    background: #3498db;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.info-tooltip {
+    display: none;
+    position: absolute;
+    background: #333;
+    color: white;
+    padding: 0.8rem;
+    border-radius: 8px;
+    max-width: 300px;
+    z-index: 1000;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.info-icon:hover + .info-tooltip {
+    display: block;
+}
+
+.metric {
+    margin: 1rem 0;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-bottom: 0.3rem;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.metric-value.positive {
+    color: #27ae60;
+}
+
+.metric-value.negative {
+    color: #e74c3c;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #ecf0f1;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+    position: relative;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #bdc3c7;
+    opacity: 0.5;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    margin-top: 1rem;
+}
+
+.full-width-card {
+    grid-column: 1 / -1;
+}
+
+.two-column-card {
+    grid-column: span 2;
+}
+
+.education-section {
+    background: #e8f4fd;
+    border-left: 4px solid #3498db;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+}
+
+.education-section h3 {
+    color: #2980b9;
+    margin-bottom: 1rem;
+}
+
+.education-section p {
+    margin-bottom: 0.8rem;
+    color: #34495e;
+}
+
+.key-terms {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.term {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.term-name {
+    font-weight: 600;
+    color: #2980b9;
+    margin-bottom: 0.3rem;
+}
+
+.term-definition {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #ecf0f1;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tab {
+    padding: 0.8rem 1.5rem;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #7f8c8d;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+}
+
+.tab.active {
+    color: #3498db;
+    border-bottom-color: #3498db;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.kpi-item {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.kpi-item.clickable {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.kpi-item.clickable:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.kpi-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.kpi-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.breakdown-chart {
+    margin: 1.5rem 0;
+}
+
+.breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.breakdown-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.breakdown-item.total {
+    background: #e3f2fd;
+    border: 2px solid #2196f3;
+    font-weight: 700;
+}
+
+.breakdown-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.breakdown-icon {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3498db;
+}
+
+.breakdown-value {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.breakdown-amount {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.breakdown-percent {
+    font-size: 0.85rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    background: #e9ecef;
+    color: #666;
+}
+
+.passenger-details {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.passenger-name {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.passenger-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* KPI Modal Styles */
+.kpi-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.kpi-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 700px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.kpi-modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.kpi-modal-close:hover,
+.kpi-modal-close:focus {
+    color: #000;
+}
+
+#kpi-modal-body {
+    padding: 2rem;
+}
+
+/* Table wrapper for mobile scrolling */
+.table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -1rem;
+    padding: 0 1rem;
+}
+
+.mobile-scroll-hint {
+    display: none;
+    font-size: 0.75rem;
+    color: #666;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+/* ===== MOBILE RESPONSIVE STYLES ===== */
+
+/* Tablet breakpoint */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .two-column-card {
+        grid-column: span 1;
+    }
+    
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+    }
+}
+
+/* Mobile breakpoint */
+@media (max-width: 768px) {
+    /* Header adjustments */
+    .header {
+        padding: 1.5rem 1rem;
+    }
+    
+    .header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .header .subtitle {
+        font-size: 1rem;
+    }
+    
+    /* Logistics buttons on mobile */
+    .logistics-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+        margin: 0.3rem;
+    }
+    
+    /* Navigation */
+    .nav-container {
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+    
+    .nav-button {
+        flex: 1 1 calc(50% - 0.25rem);
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+        min-width: 120px;
+    }
+    
+    /* Main content */
+    .main-content {
+        padding: 1rem;
+    }
+    
+    /* Grid adjustments */
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    /* Cards */
+    .card {
+        padding: 1.2rem;
+        border-radius: 10px;
+    }
+    
+    .card:hover {
+        transform: none;
+    }
+    
+    .card-header {
+        padding-bottom: 0.8rem;
+    }
+    
+    .card-title {
+        font-size: 1.1rem;
+    }
+    
+    /* Charts */
+    .chart-container {
+        height: 250px;
+    }
+    
+    /* Tabs */
+    .tabs {
+        gap: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    .tab {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+        flex: 1 1 auto;
+        min-width: fit-content;
+    }
+    
+    /* Tables */
+    table {
+        font-size: 0.85rem;
+    }
+    
+    th, td {
+        padding: 0.6rem !important;
+    }
+    
+    .mobile-scroll-hint {
+        display: block;
+    }
+    
+    /* Metrics */
+    .metric-value {
+        font-size: 1.8rem;
+    }
+    
+    /* Education section */
+    .education-section {
+        padding: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Key terms */
+    .key-terms {
+        gap: 0.8rem;
+    }
+    
+    .term {
+        padding: 0.8rem;
+    }
+}
+
+/* Small mobile breakpoint */
+@media (max-width: 480px) {
+    /* Header */
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .header .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    /* Logistics buttons stack on very small screens */
+    .logistics-button {
+        display: block;
+        width: calc(100% - 2rem);
+        margin: 0.5rem 1rem;
+    }
+    
+    /* Navigation - Stack all buttons on very small screens */
+    .nav-button {
+        flex: 1 1 100%;
+    }
+    
+    /* KPI Grid */
+    .kpi-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    
+    .kpi-item {
+        padding: 1.2rem;
+    }
+    
+    .kpi-value {
+        font-size: 2rem;
+    }
+    
+    .kpi-label {
+        font-size: 0.85rem;
+    }
+    
+    /* Modal */
+    .kpi-modal-content {
+        width: 95%;
+        margin: 2% auto;
+        max-height: 98vh;
+        overflow-y: auto;
+    }
+    
+    #kpi-modal-body {
+        padding: 1.2rem;
+    }
+    
+    .kpi-modal-close {
+        padding: 8px 16px;
+    }
+    
+    /* Info tooltip - Convert to tap instead of hover */
+    .info-icon {
+        position: relative;
+    }
+    
+    .info-icon:active + .info-tooltip,
+    .info-icon:focus + .info-tooltip {
+        display: block;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 90vw;
+        z-index: 1001;
+    }
+    
+    /* Tables - Ensure minimum width */
+    table {
+        min-width: 100%;
+    }
+    
+    /* Breakdown items */
+    .breakdown-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .breakdown-value {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    /* Font size adjustments */
+    body {
+        font-size: 0.95rem;
+    }
+    
+    h2 {
+        font-size: 1.3rem;
+    }
+    
+    h3 {
+        font-size: 1.1rem;
+    }
+    
+    h4 {
+        font-size: 1rem;
+    }
+    
+    p, div {
+        font-size: 0.9rem;
+    }
+    
+    small {
+        font-size: 0.8rem;
+    }
+}
+
+/* Touch-friendly adjustments */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase tap targets */
+    .nav-button,
+    .tab,
+    .kpi-item.clickable,
+    .logistics-button {
+        min-height: 44px;
+    }
+    
+    /* Remove hover effects on touch devices */
+    .card:hover {
+        transform: none;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    
+    .breakdown-item:hover {
+        background: #f8f9fa;
+        transform: none;
+    }
+    
+    .kpi-item.clickable:hover {
+        transform: none;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+    .header {
+        padding: 1rem;
+    }
+    
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .chart-container {
+        height: 200px;
+    }
+    
+    .kpi-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Print styles */
+@media print {
+    .main-nav,
+    .tabs,
+    .info-icon,
+    .mobile-scroll-hint,
+    .kpi-modal,
+    .logistics-button {
+        display: none !important;
+    }
+    
+    .card {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    body {
+        background: white;
+    }
+}
