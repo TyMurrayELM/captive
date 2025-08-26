@@ -75,6 +75,494 @@
                 forceInitCharts();
             }
         }
+        
+        // KPI Modal Functions - UPDATED WITH JUNE 2025 DATA
+        function showKPIDetail(type) {
+            console.log('showKPIDetail called for:', type);
+            const modal = document.getElementById('kpi-modal');
+            const modalBody = document.getElementById('kpi-modal-body');
+            
+            if (!modal || !modalBody) {
+                console.error('KPI modal elements not found');
+                return;
+            }
+            
+            let content = '';
+            
+            switch(type) {
+                case 'equity':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Total Equity Calculation</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #3498db; margin-bottom: 1rem;">$371,314 Before IBNR</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Components of Your Equity:</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">A Fund Balance</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 600;">$106,030</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">B Fund Balance</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 600;">$46,361</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">Share Capital (Initial Investment)</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 600;">$36,000</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">Retained Earnings</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 600;">$182,923</td>
+                                    </tr>
+                                    <tr style="background: #e3f2fd;">
+                                        <td style="padding: 0.8rem; font-weight: 700;">Total Equity</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 700; color: #2196f3;">$371,314</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <div style="background: #fff3cd; padding: 1rem; border-radius: 6px;">
+                                <h5 style="color: #856404; margin-bottom: 0.5rem;">What is IBNR?</h5>
+                                <p style="margin: 0; color: #856404; font-size: 0.9rem;">
+                                    Incurred But Not Reported (IBNR) reserves are set aside for claims that have occurred but haven't been reported yet. Your actual available equity may be lower once IBNR is calculated at year-end.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'premium':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Monthly Premium Breakdown</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #3498db; margin-bottom: 1rem;">$49,617 Monthly / $595,402 Annual</h3>
+                            
+                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                                <thead>
+                                    <tr style="background: #e9ecef;">
+                                        <th style="padding: 0.8rem; text-align: left;">Coverage Type</th>
+                                        <th style="padding: 0.8rem; text-align: right;">Monthly</th>
+                                        <th style="padding: 0.8rem; text-align: right;">Annual</th>
+                                        <th style="padding: 0.8rem; text-align: center;">% of Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">Workers Compensation</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$13,083</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$157,000</td>
+                                        <td style="text-align: center; padding: 0.8rem;">26.4%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">Auto Liability</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$24,333</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$292,000</td>
+                                        <td style="text-align: center; padding: 0.8rem;">49.0%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">General Liability</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$5,333</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$64,000</td>
+                                        <td style="text-align: center; padding: 0.8rem;">10.7%</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">Auto Physical Damage</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$6,867</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$82,402</td>
+                                        <td style="text-align: center; padding: 0.8rem;">13.8%</td>
+                                    </tr>
+                                    <tr style="background: #e3f2fd;">
+                                        <td style="padding: 0.8rem; font-weight: 700;">Total Premium</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$49,617</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$595,402</td>
+                                        <td style="text-align: center; padding: 0.8rem; font-weight: 700;">100%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <div style="background: #d1ecf1; padding: 1rem; border-radius: 6px;">
+                                <h5 style="color: #0c5460; margin-bottom: 0.5rem;">Premium Allocation</h5>
+                                <p style="margin: 0; color: #0c5460; font-size: 0.9rem;">
+                                    Auto Liability represents nearly half of your premium due to the higher risk exposure and potential severity of auto-related claims. Your Workers Compensation premium reflects your payroll and job classifications.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'lossratio':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Loss Ratio Calculation</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #27ae60; margin-bottom: 1rem;">11.34% Current Loss Ratio</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">The Formula:</h4>
+                                <div style="font-size: 1.1rem; text-align: center; padding: 1.5rem; background: white; border-radius: 6px;">
+                                    <div style="margin-bottom: 1rem;">
+                                        Loss Ratio = (Total Incurred Losses ÷ Earned Premium) × 100
+                                    </div>
+                                    <div style="font-weight: 700; color: #2196f3; font-size: 1.3rem;">
+                                        ($61,789 ÷ $544,833) × 100 = 11.34%
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="background: #d4edda; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                                <h5 style="color: #155724; margin-bottom: 0.5rem;">Outstanding Performance!</h5>
+                                <p style="margin: 0; color: #155724; font-size: 0.9rem;">
+                                    Your 11.34% loss ratio is exceptional - significantly below the target of 60% and the industry average of 40-60%. 
+                                    This improved from 18% earlier in the year despite increased claim frequency.
+                                </p>
+                            </div>
+                            
+                            <div style="background: #cfe2ff; padding: 1rem; border-radius: 6px;">
+                                <h5 style="color: #084298; margin-bottom: 0.5rem;">Impact on Your Equity</h5>
+                                <p style="margin: 0; color: #084298; font-size: 0.9rem;">
+                                    With an 11.34% loss ratio, approximately 88.66% of your premium (minus expenses) contributes to equity growth! 
+                                    This exceptional performance accelerates your equity accumulation significantly.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'claims':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Claims Detail Summary (June 30, 2025)</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #e74c3c; margin-bottom: 1rem;">23 Total Claims YTD</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Claims by Coverage Type:</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #e9ecef;">
+                                            <th style="padding: 0.8rem; text-align: left;">Coverage</th>
+                                            <th style="padding: 0.8rem; text-align: center;">Count</th>
+                                            <th style="padding: 0.8rem; text-align: right;">Total Incurred</th>
+                                            <th style="padding: 0.8rem; text-align: right;">Average</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Workers Compensation</td>
+                                            <td style="text-align: center; padding: 0.8rem;">5</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$26,785</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$5,357</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Auto Liability</td>
+                                            <td style="text-align: center; padding: 0.8rem;">6</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$15,773</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$2,629</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">General Liability</td>
+                                            <td style="text-align: center; padding: 0.8rem;">0</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$0</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$0</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6; background: #fff3cd;">
+                                            <td style="padding: 0.8rem;">Auto Physical Damage ⚠️</td>
+                                            <td style="text-align: center; padding: 0.8rem; color: #e67e22; font-weight: 600;">12</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$19,231</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$1,603</td>
+                                        </tr>
+                                        <tr style="background: #e3f2fd;">
+                                            <td style="padding: 0.8rem; font-weight: 700;">Total</td>
+                                            <td style="text-align: center; padding: 0.8rem; font-weight: 700;">23</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$61,789</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$2,686</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                                <h5 style="color: #856404; margin-bottom: 0.5rem;">⚠️ Auto Physical Damage Alert</h5>
+                                <p style="margin: 0; color: #856404; font-size: 0.9rem;">
+                                    12 APD claims represent 52% of total claim frequency. While severity is low ($1,603 average), 
+                                    this frequency indicates potential issues with driver training or vehicle maintenance. 
+                                    Consider implementing additional safety programs.
+                                </p>
+                            </div>
+                            
+                            <div style="background: #cfe2ff; padding: 1rem; border-radius: 6px;">
+                                <h5 style="color: #084298; margin-bottom: 0.5rem;">Claims Frequency Analysis</h5>
+                                <p style="margin: 0; color: #084298; font-size: 0.9rem;">
+                                    With 23 claims in 11 months, you're averaging 2.1 claims per month. Despite the increased frequency, 
+                                    your low severity and excellent loss ratio of 11.34% demonstrate strong overall risk management.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                // Renewal-specific KPIs
+                case 'renewal-premium':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Renewal Premium Breakdown</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #3498db; margin-bottom: 1rem;">Annual Renewal Premium: $703,404</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Component Comparison:</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #e9ecef;">
+                                            <th style="padding: 0.8rem; text-align: left;">Component</th>
+                                            <th style="padding: 0.8rem; text-align: right;">Current</th>
+                                            <th style="padding: 0.8rem; text-align: right;">Renewal</th>
+                                            <th style="padding: 0.8rem; text-align: right;">Change</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">A Fund</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$137,560</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$239,350</td>
+                                            <td style="text-align: right; padding: 0.8rem; color: #e74c3c;">+$101,790</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">B Fund</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$47,800</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$184,854</td>
+                                            <td style="text-align: right; padding: 0.8rem; color: #e74c3c;">+$137,054</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Operating Costs</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$410,042</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$279,200</td>
+                                            <td style="text-align: right; padding: 0.8rem; color: #27ae60;">-$130,842</td>
+                                        </tr>
+                                        <tr style="background: #e3f2fd;">
+                                            <td style="padding: 0.8rem; font-weight: 700;">Total Premium</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$595,402</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$703,404</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700; color: #e74c3c;">+$108,002</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div style="background: #fff3cd; padding: 1rem; border-radius: 6px;">
+                                <strong>Key Changes:</strong>
+                                <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">
+                                    <li>Loss funds increased 129% to reflect adjusted risk</li>
+                                    <li>Operating costs decreased 32% due to efficiencies</li>
+                                    <li>Overall increase of 18.1% from current year</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'premium-increase':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Premium Increase Analysis</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #3498db; margin-bottom: 1rem;">Total Increase: +18.1% ($108,002)</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">What's Driving Your Increase:</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #e9ecef;">
+                                            <th style="padding: 0.8rem; text-align: left;">Factor</th>
+                                            <th style="padding: 0.8rem; text-align: right;">Dollar Impact</th>
+                                            <th style="padding: 0.8rem; text-align: right;">% of Premium</th>
+                                            <th style="padding: 0.8rem; text-align: right;">% of Increase</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Your Business Growth</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$29,770</td>
+                                            <td style="text-align: right; padding: 0.8rem;">5.0%</td>
+                                            <td style="text-align: right; padding: 0.8rem;">27.6%</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Inflation Adjustment</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$11,908</td>
+                                            <td style="text-align: right; padding: 0.8rem;">2.0%</td>
+                                            <td style="text-align: right; padding: 0.8rem;">11.0%</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Reinsurance Rate Increase</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$17,862</td>
+                                            <td style="text-align: right; padding: 0.8rem;">3.0%</td>
+                                            <td style="text-align: right; padding: 0.8rem;">16.5%</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Loss Fund & Other</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$48,462</td>
+                                            <td style="text-align: right; padding: 0.8rem;">8.1%</td>
+                                            <td style="text-align: right; padding: 0.8rem;">44.9%</td>
+                                        </tr>
+                                        <tr style="background: #e3f2fd;">
+                                            <td style="padding: 0.8rem; font-weight: 700;">Total Increase</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$108,002</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">18.1%</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">100.0%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div style="background: #e3f2fd; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                                <strong>Key Insights:</strong>
+                                <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">
+                                    <li><strong>39% of increase</strong> is from your business growth and inflation (within your control)</li>
+                                    <li><strong>61% of increase</strong> is from external factors (market conditions)</li>
+                                    <li>Your excellent 11.34% loss ratio helps keep the increase moderate</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="background: #d4edda; padding: 1rem; border-radius: 6px;">
+                                <strong>Your Performance Impact:</strong>
+                                <p style="margin-top: 0.5rem;">With an 11.34% loss ratio (vs 60% target), you're positioned for potential profit sharing that could offset some of this increase through equity growth.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'monthly-renewal':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Monthly Premium Calculation</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #3498db; margin-bottom: 1rem;">Monthly Premium: $58,617</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Calculation:</h4>
+                                <div style="font-size: 1.2rem; text-align: center; padding: 1.5rem; background: white; border-radius: 6px;">
+                                    <div style="margin-bottom: 1rem;">
+                                        Annual Premium ÷ 12 Months = Monthly Premium
+                                    </div>
+                                    <div style="font-weight: 700; color: #2196f3; font-size: 1.3rem;">
+                                        $703,404 ÷ 12 = $58,617
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Monthly Comparison:</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">Current Monthly</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$49,617</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <td style="padding: 0.8rem;">Renewal Monthly</td>
+                                        <td style="text-align: right; padding: 0.8rem;">$58,617</td>
+                                    </tr>
+                                    <tr style="background: #fff3cd;">
+                                        <td style="padding: 0.8rem; font-weight: 600;">Monthly Increase</td>
+                                        <td style="text-align: right; padding: 0.8rem; font-weight: 600; color: #e74c3c;">+$9,000</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <div style="background: #e8f4fd; padding: 1rem; border-radius: 6px;">
+                                <strong>Budget Planning:</strong>
+                                <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">
+                                    <li>Additional monthly cost: $9,000</li>
+                                    <li>Daily cost increase: $300</li>
+                                    <li>Consider this represents comprehensive coverage for your growing operation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'business-growth':
+                    content = `
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Business Growth Analysis</h2>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                            <h3 style="color: #3498db; margin-bottom: 1rem;">Your Business Growth: 5.0%</h3>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Exposure Changes by Coverage:</h4>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #e9ecef;">
+                                            <th style="padding: 0.8rem; text-align: left;">Coverage Type</th>
+                                            <th style="padding: 0.8rem; text-align: right;">Current</th>
+                                            <th style="padding: 0.8rem; text-align: right;">Renewal</th>
+                                            <th style="padding: 0.8rem; text-align: right;">Growth %</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">WC Payroll</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$9.28M</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$9.48M</td>
+                                            <td style="text-align: right; padding: 0.8rem; color: #27ae60;">+2.2%</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">GL Payroll</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$6.05M</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$6.25M</td>
+                                            <td style="text-align: right; padding: 0.8rem; color: #27ae60;">+3.3%</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">AL Units</td>
+                                            <td style="text-align: right; padding: 0.8rem;">105</td>
+                                            <td style="text-align: right; padding: 0.8rem;">113</td>
+                                            <td style="text-align: right; padding: 0.8rem; color: #27ae60;">+7.6%</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">APD Units</td>
+                                            <td style="text-align: right; padding: 0.8rem;">152</td>
+                                            <td style="text-align: right; padding: 0.8rem;">162</td>
+                                            <td style="text-align: right; padding: 0.8rem; color: #27ae60;">+6.6%</td>
+                                        </tr>
+                                        <tr style="background: #e3f2fd;">
+                                            <td style="padding: 0.8rem; font-weight: 700;">Weighted Average</td>
+                                            <td style="text-align: right; padding: 0.8rem;" colspan="2">-</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700; color: #2196f3;">5.0%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div style="background: #d4edda; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                                <strong>Growth Indicators:</strong>
+                                <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">
+                                    <li>Added 8 vehicles to your fleet (7.6% growth)</li>
+                                    <li>Increased payroll by $400K (healthy expansion)</li>
+                                    <li>10 additional units for physical damage coverage</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="background: #e8f4fd; padding: 1rem; border-radius: 6px;">
+                                <strong>Premium Impact:</strong>
+                                <p style="margin-top: 0.5rem;">Your 5% business growth accounts for $29,770 of the premium increase. This is a normal and expected increase as your business expands - more employees, vehicles, and operations require proportionally more coverage.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            modalBody.innerHTML = content;
+            modal.style.display = 'block';
+        }
+        
+        function closeKPIModal() {
+            const modal = document.getElementById('kpi-modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Close modal when clicking outside of it
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('kpi-modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
