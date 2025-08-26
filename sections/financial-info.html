@@ -640,20 +640,20 @@
                     <div class="metric-label">Claims by Coverage (June 30, 2025)</div>
                     <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
                         <div style="text-align: center;">
-                            <div style="font-weight: 600;">WC</div>
-                            <div>5 claims</div>
+                            <div style="font-weight: 600; color: #e67e22;">WC</div>
+                            <div style="color: #e67e22;">12 claims</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-weight: 600;">AL</div>
-                            <div>6 claims</div>
+                            <div>5 claims</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-weight: 600;">GL</div>
                             <div>0 claims</div>
                         </div>
                         <div style="text-align: center;">
-                            <div style="font-weight: 600; color: #e67e22;">APD</div>
-                            <div style="color: #e67e22;">12 claims</div>
+                            <div style="font-weight: 600;">PD</div>
+                            <div>6 claims</div>
                         </div>
                     </div>
                 </div>
@@ -662,16 +662,16 @@
         
         <!-- Full-width cards section -->
         <div style="margin-top: 1.5rem;">
-            <!-- Alert for APD Claims -->
+            <!-- Alert for Workers Comp Claims -->
             <div class="card" style="margin-bottom: 1.5rem; border-left: 4px solid #f39c12;">
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <div style="font-size: 2rem;">⚠️</div>
                     <div>
-                        <h3 style="margin: 0; color: #e67e22;">Auto Physical Damage Alert</h3>
+                        <h3 style="margin: 0; color: #e67e22;">Workers Compensation Alert</h3>
                         <p style="margin: 0.5rem 0 0; color: #666;">
-                            12 APD claims in 11 months indicates a concerning frequency of vehicle incidents. 
-                            While average claim severity is low ($1,603), the frequency suggests potential operational issues.
-                            Consider implementing additional driver safety training and vehicle maintenance programs.
+                            12 WC claims in 11 months indicates a concerning frequency of workplace injuries. 
+                            While average claim severity is manageable ($2,232), the frequency of more than 1 injury per month suggests potential workplace safety issues.
+                            Consider implementing enhanced safety training programs, conducting workplace hazard assessments, and reviewing safety protocols.
                         </p>
                     </div>
                 </div>
@@ -703,18 +703,18 @@
                     <div style="margin-top: 1rem;">
                         <h4>Coverage Breakdown (June 30, 2025)</h4>
                         <ul style="list-style: none; padding: 0;">
-                            <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
-                                <strong>Workers Compensation:</strong> 5 claims - $26,785 incurred
-                            </li>
-                            <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
-                                <strong>Auto Liability:</strong> 6 claims - $15,773 incurred
-                            </li>
-                            <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
-                                <strong>General Liability:</strong> 0 claims - $0 incurred
-                            </li>
                             <li style="padding: 0.5rem 0; background: #fff3cd; padding: 0.5rem; border-radius: 4px;">
-                                <strong>Auto Physical Damage:</strong> 12 claims - $19,231 incurred
+                                <strong>Workers Compensation:</strong> 12 claims - $26,785 incurred
                                 <span class="warning-badge">High Frequency</span>
+                            </li>
+                            <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                                <strong>Auto Liability:</strong> 5 claims - $15,773 incurred
+                            </li>
+                            <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                                <strong>Physical Damage:</strong> 6 claims - $19,231 incurred
+                            </li>
+                            <li style="padding: 0.5rem 0;">
+                                <strong>General Liability:</strong> 0 claims - $0 incurred
                             </li>
                         </ul>
                     </div>
@@ -740,19 +740,27 @@
                             <tbody>
                                 <tr>
                                     <td>Workers Compensation</td>
-                                    <td style="text-align: center;">5</td>
+                                    <td style="text-align: center;">12</td>
                                     <td style="text-align: right;">$18,785</td>
                                     <td style="text-align: right;">$8,000</td>
                                     <td style="text-align: right;">$26,785</td>
-                                    <td style="text-align: right;">$5,357</td>
+                                    <td style="text-align: right;">$2,232</td>
                                 </tr>
                                 <tr>
                                     <td>Auto Liability</td>
-                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: center;">5</td>
                                     <td style="text-align: right;">$10,773</td>
                                     <td style="text-align: right;">$5,000</td>
                                     <td style="text-align: right;">$15,773</td>
-                                    <td style="text-align: right;">$2,629</td>
+                                    <td style="text-align: right;">$3,155</td>
+                                </tr>
+                                <tr>
+                                    <td>Physical Damage</td>
+                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: right;">$17,231</td>
+                                    <td style="text-align: right;">$2,000</td>
+                                    <td style="text-align: right;">$19,231</td>
+                                    <td style="text-align: right;">$3,205</td>
                                 </tr>
                                 <tr>
                                     <td>General Liability</td>
@@ -762,13 +770,13 @@
                                     <td style="text-align: right;">$0</td>
                                     <td style="text-align: right;">$0</td>
                                 </tr>
-                                <tr style="background: #fff3cd;">
-                                    <td>Auto Physical Damage <span class="warning-badge">High Freq</span></td>
+                                <tr style="font-weight: 700; background: #fff3cd;">
+                                    <td>Workers Comp (High Freq) <span class="warning-badge">⚠️</span></td>
                                     <td style="text-align: center; color: #e67e22; font-weight: 600;">12</td>
-                                    <td style="text-align: right;">$17,231</td>
-                                    <td style="text-align: right;">$2,000</td>
-                                    <td style="text-align: right;">$19,231</td>
-                                    <td style="text-align: right;">$1,603</td>
+                                    <td style="text-align: right;">$18,785</td>
+                                    <td style="text-align: right;">$8,000</td>
+                                    <td style="text-align: right;">$26,785</td>
+                                    <td style="text-align: right;">$2,232</td>
                                 </tr>
                                 <tr style="font-weight: 700; background: #f8f9fa;">
                                     <td>TOTAL</td>
