@@ -105,7 +105,7 @@
             } else {
                 console.log('initializeCharts function not found, trying direct initialization');
                 
-                // Directly initialize the charts with June 2025 data
+                // Directly initialize the charts with CORRECTED June 2025 data
                 const trendCtx = document.getElementById('trendChart');
                 const coverageCtx = document.getElementById('coverageChart');
                 const developmentCtx = document.getElementById('developmentChart');
@@ -123,7 +123,7 @@
                                 tension: 0.3
                             }, {
                                 label: 'Cumulative Claims',
-                                data: [0, 7693, 13193, 13193, 13193, 13193, 13193, 16183, 39181, 49789, 61789],
+                                data: [0, 7693, 13193, 19693, 19693, 19693, 19693, 22683, 33681, 44289, 61789],
                                 borderColor: '#3498db',
                                 backgroundColor: 'rgba(52, 152, 219, 0.1)',
                                 tension: 0.3
@@ -156,14 +156,14 @@
                     new Chart(coverageCtx.getContext('2d'), {
                         type: 'doughnut',
                         data: {
-                            labels: ['Workers Comp', 'Auto Liability', 'General Liability', 'Auto Physical Damage'],
+                            labels: ['Workers Comp', 'Auto Liability', 'Physical Damage', 'General Liability'],
                             datasets: [{
-                                data: [26785, 15773, 0, 19231],
+                                data: [26785, 15773, 19231, 0],
                                 backgroundColor: [
                                     '#3498db',
                                     '#e74c3c',
-                                    '#27ae60',
-                                    '#f39c12'
+                                    '#f39c12',
+                                    '#27ae60'
                                 ]
                             }]
                         },
@@ -191,16 +191,16 @@
                                 backgroundColor: '#3498db'
                             }, {
                                 label: 'Auto Liability',
-                                data: [0, 0, 0, 6500, 0, 0, 0, 0, 5273, 0, 4000],
+                                data: [0, 0, 0, 6500, 0, 0, 0, 2990, 3283, 0, 3000],
                                 backgroundColor: '#e74c3c'
+                            }, {
+                                label: 'Physical Damage',
+                                data: [0, 7693, 0, 0, 0, 0, 0, 0, 6538, 0, 5000],
+                                backgroundColor: '#f39c12'
                             }, {
                                 label: 'General Liability',
                                 data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                                 backgroundColor: '#27ae60'
-                            }, {
-                                label: 'Auto Physical Damage',
-                                data: [0, 7693, 0, 0, 0, 0, 0, 2990, 3538, 0, 5000],
-                                backgroundColor: '#f39c12'
                             }]
                         },
                         options: {
@@ -245,7 +245,7 @@
             }
         }
         
-        // KPI Modal Functions - UPDATED WITH JUNE 2025 DATA
+        // KPI Modal Functions - CORRECTED WITH ACCURATE JUNE 2025 DATA
         function showKPIDetail(type) {
             console.log('showKPIDetail called for:', type);
             const modal = document.getElementById('kpi-modal');
@@ -415,29 +415,29 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr style="border-bottom: 1px solid #dee2e6;">
-                                            <td style="padding: 0.8rem;">Workers Compensation</td>
-                                            <td style="text-align: center; padding: 0.8rem;">5</td>
+                                        <tr style="border-bottom: 1px solid #dee2e6; background: #fff3cd;">
+                                            <td style="padding: 0.8rem;">Workers Compensation ⚠️</td>
+                                            <td style="text-align: center; padding: 0.8rem; color: #e67e22; font-weight: 600;">12</td>
                                             <td style="text-align: right; padding: 0.8rem;">$26,785</td>
-                                            <td style="text-align: right; padding: 0.8rem;">$5,357</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$2,232</td>
                                         </tr>
                                         <tr style="border-bottom: 1px solid #dee2e6;">
                                             <td style="padding: 0.8rem;">Auto Liability</td>
-                                            <td style="text-align: center; padding: 0.8rem;">6</td>
+                                            <td style="text-align: center; padding: 0.8rem;">5</td>
                                             <td style="text-align: right; padding: 0.8rem;">$15,773</td>
-                                            <td style="text-align: right; padding: 0.8rem;">$2,629</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$3,155</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 0.8rem;">Physical Damage</td>
+                                            <td style="text-align: center; padding: 0.8rem;">6</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$19,231</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$3,205</td>
                                         </tr>
                                         <tr style="border-bottom: 1px solid #dee2e6;">
                                             <td style="padding: 0.8rem;">General Liability</td>
                                             <td style="text-align: center; padding: 0.8rem;">0</td>
                                             <td style="text-align: right; padding: 0.8rem;">$0</td>
                                             <td style="text-align: right; padding: 0.8rem;">$0</td>
-                                        </tr>
-                                        <tr style="border-bottom: 1px solid #dee2e6; background: #fff3cd;">
-                                            <td style="padding: 0.8rem;">Auto Physical Damage ⚠️</td>
-                                            <td style="text-align: center; padding: 0.8rem; color: #e67e22; font-weight: 600;">12</td>
-                                            <td style="text-align: right; padding: 0.8rem;">$19,231</td>
-                                            <td style="text-align: right; padding: 0.8rem;">$1,603</td>
                                         </tr>
                                         <tr style="background: #e3f2fd;">
                                             <td style="padding: 0.8rem; font-weight: 700;">Total</td>
@@ -450,18 +450,19 @@
                             </div>
                             
                             <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-                                <h5 style="color: #856404; margin-bottom: 0.5rem;">⚠️ Auto Physical Damage Alert</h5>
+                                <h5 style="color: #856404; margin-bottom: 0.5rem;">⚠️ Workers Compensation Alert</h5>
                                 <p style="margin: 0; color: #856404; font-size: 0.9rem;">
-                                    12 APD claims represent 52% of total claim frequency. While severity is low ($1,603 average), 
-                                    this frequency indicates potential issues with driver training or vehicle maintenance. 
-                                    Consider implementing additional safety programs.
+                                    12 WC claims represent 52% of total claim frequency. While severity is relatively low ($2,232 average), 
+                                    this high frequency indicates potential workplace safety issues. 
+                                    Consider implementing additional safety training programs and reviewing workplace procedures.
                                 </p>
                             </div>
                             
                             <div style="background: #cfe2ff; padding: 1rem; border-radius: 6px;">
                                 <h5 style="color: #084298; margin-bottom: 0.5rem;">Claims Frequency Analysis</h5>
                                 <p style="margin: 0; color: #084298; font-size: 0.9rem;">
-                                    With 23 claims in 11 months, you're averaging 2.1 claims per month. Despite the increased frequency, 
+                                    With 23 claims in 11 months, you're averaging 2.1 claims per month. The concerning area is Workers Compensation
+                                    with more than 1 workplace injury per month. Despite this frequency, 
                                     your low severity and excellent loss ratio of 11.34% demonstrate strong overall risk management.
                                 </p>
                             </div>
