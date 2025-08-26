@@ -58,7 +58,176 @@
             loadSection('captive-info');
         });
         
-        // Add manual chart initialization for debugging (optional - can be removed if not needed)
+        // Store the original loadSection function
+        window.addEventListener('load', function() {
+            const originalLoadSection = window.loadSection;
+            if (originalLoadSection) {
+                window.loadSection = function(sectionId) {
+                    // Call the original function
+                    originalLoadSection(sectionId);
+                    
+                    // If loading financial-info, initialize charts after a delay
+                    if (sectionId === 'financial-info') {
+                        setTimeout(function() {
+                            initializeFinancialCharts();
+                        }, 300);
+                    }
+                };
+            }
+        });
+        
+        // Function to initialize financial charts
+        function initializeFinancialCharts() {
+            console.log('Attempting to initialize financial charts...');
+            
+            // Check if we're on the financial-info section
+            if (window.currentSection !== 'financial-info') {
+                console.log('Not on financial-info section, skipping chart initialization');
+                return;
+            }
+            
+            // Try to run any script tags in the loaded content
+            const scripts = document.querySelectorAll('#content-area script');
+            scripts.forEach(script => {
+                try {
+                    if (script.textContent.includes('initializeCharts')) {
+                        eval(script.textContent);
+                    }
+                } catch (e) {
+                    console.error('Error evaluating script:', e);
+                }
+            });
+            
+            // Try to call initializeCharts if it exists
+            if (typeof initializeCharts === 'function') {
+                console.log('Calling initializeCharts function');
+                initializeCharts();
+            } else {
+                console.log('initializeCharts function not found, trying direct initialization');
+                
+                // Directly initialize the charts with June 2025 data
+                const trendCtx = document.getElementById('trendChart');
+                const coverageCtx = document.getElementById('coverageChart');
+                const developmentCtx = document.getElementById('developmentChart');
+                
+                if (trendCtx) {
+                    new Chart(trendCtx.getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                            datasets: [{
+                                label: 'Claims Incurred',
+                                data: [0, 7693, 5500, 6500, 0, 0, 0, 2990, 10998, 10608, 12000],
+                                borderColor: '#e74c3c',
+                                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                                tension: 0.3
+                            }, {
+                                label: 'Cumulative Claims',
+                                data: [0, 7693, 13193, 13193, 13193, 13193, 13193, 16183, 39181, 49789, 61789],
+                                borderColor: '#3498db',
+                                backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                                tension: 0.3
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return '$' + value.toLocaleString();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    console.log('Trend chart initialized');
+                }
+                
+                if (coverageCtx) {
+                    new Chart(coverageCtx.getContext('2d'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Workers Comp', 'Auto Liability', 'General Liability', 'Auto Physical Damage'],
+                            datasets: [{
+                                data: [26785, 15773, 0, 19231],
+                                backgroundColor: [
+                                    '#3498db',
+                                    '#e74c3c',
+                                    '#27ae60',
+                                    '#f39c12'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            }
+                        }
+                    });
+                    console.log('Coverage chart initialized');
+                }
+                
+                if (developmentCtx) {
+                    new Chart(developmentCtx.getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                            datasets: [{
+                                label: 'Workers Comp',
+                                data: [0, 0, 5500, 0, 0, 0, 0, 0, 8000, 10285, 3000],
+                                backgroundColor: '#3498db'
+                            }, {
+                                label: 'Auto Liability',
+                                data: [0, 0, 0, 6500, 0, 0, 0, 0, 5273, 0, 4000],
+                                backgroundColor: '#e74c3c'
+                            }, {
+                                label: 'General Liability',
+                                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                backgroundColor: '#27ae60'
+                            }, {
+                                label: 'Auto Physical Damage',
+                                data: [0, 7693, 0, 0, 0, 0, 0, 2990, 3538, 0, 5000],
+                                backgroundColor: '#f39c12'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    stacked: true
+                                },
+                                y: {
+                                    stacked: true,
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return '$' + value.toLocaleString();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    console.log('Development chart initialized');
+                }
+            }
+        }
+        
+        // Add manual chart initialization for debugging
         function debugCharts() {
             console.log('=== Chart Debug Info ===');
             console.log('Chart.js loaded:', typeof Chart !== 'undefined');
@@ -70,9 +239,9 @@
             console.log('- developmentChart:', document.getElementById('developmentChart'));
             console.log('=======================');
             
-            if (window.currentSection === 'financial-info' && typeof forceInitCharts === 'function') {
+            if (window.currentSection === 'financial-info') {
                 console.log('Forcing chart initialization...');
-                forceInitCharts();
+                initializeFinancialCharts();
             }
         }
         
