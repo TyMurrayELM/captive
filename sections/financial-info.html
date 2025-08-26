@@ -56,6 +56,16 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.15);
         }
         
+        /* Special styling for improved loss ratio */
+        .kpi-item.green-gradient {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        }
+        
+        /* Alert styling for APD claims */
+        .kpi-item.orange-gradient {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+        
         .kpi-value {
             font-size: 2.5rem;
             font-weight: 700;
@@ -103,6 +113,22 @@
             font-weight: 700;
             color: #2c3e50;
             margin: 0;
+        }
+        
+        /* Update Alert */
+        .update-alert {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .update-alert strong {
+            font-size: 1.1rem;
         }
         
         /* Info Icons */
@@ -314,6 +340,18 @@
             background: #e74c3c;
         }
         
+        /* Warning badge for high frequency claims */
+        .warning-badge {
+            display: inline-block;
+            background: #fff3cd;
+            color: #856404;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        
         /* Mobile Responsive Styles */
         @media (max-width: 1024px) {
             .dashboard-grid {
@@ -495,6 +533,11 @@
 <body>
     <!-- Financial Info Section -->
     <div id="financial-info" class="section">
+        <!-- Update Alert -->
+        <div class="update-alert">
+            <strong>📊 Updated:</strong> Loss History Analysis as of June 30, 2025
+        </div>
+        
         <!-- KPI Summary -->
         <div class="kpi-grid">
             <div class="kpi-item clickable" onclick="showKPIDetail('equity')">
@@ -508,14 +551,16 @@
                 <div style="font-size: 0.8rem; opacity: 0.8;">$595,402 annual</div>
                 <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem;">Click for breakdown</div>
             </div>
-            <div class="kpi-item clickable" onclick="showKPIDetail('lossratio')">
-                <div class="kpi-value">18.0%</div>
-                <div class="kpi-label">Current Loss Ratio</div>
+            <div class="kpi-item clickable green-gradient" onclick="showKPIDetail('lossratio')">
+                <div class="kpi-value">11.34%</div>
+                <div class="kpi-label">Current Loss Ratio ✨</div>
+                <div style="font-size: 0.8rem; opacity: 0.9;">Improved from 18.0%!</div>
                 <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem;">Click for calculation</div>
             </div>
-            <div class="kpi-item clickable" onclick="showKPIDetail('claims')">
-                <div class="kpi-value">8</div>
-                <div class="kpi-label">Total Claims YTD</div>
+            <div class="kpi-item clickable orange-gradient" onclick="showKPIDetail('claims')">
+                <div class="kpi-value">23</div>
+                <div class="kpi-label">Total Claims YTD ⚠️</div>
+                <div style="font-size: 0.8rem; opacity: 0.9;">12 APD claims</div>
                 <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 0.3rem;">Click for details</div>
             </div>
         </div>
@@ -566,7 +611,7 @@
             <!-- Performance Metrics Card -->
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">Performance Metrics</h2>
+                    <h2 class="card-title">Performance Metrics (June 30, 2025)</h2>
                     <div style="position: relative;">
                         <div class="info-icon">?</div>
                         <div class="info-tooltip">
@@ -575,40 +620,40 @@
                     </div>
                 </div>
                 <div class="metric">
-                    <div class="metric-label">Premium to Date</div>
-                    <div class="metric-value">$198,467</div>
-                    <small style="color: #666;">4 months (Aug-Nov 2024)</small>
+                    <div class="metric-label">Earned Premium to Date</div>
+                    <div class="metric-value">$544,833</div>
+                    <small style="color: #666;">11 months (Aug 2024 - Jun 2025)</small>
                 </div>
                 <div class="metric">
-                    <div class="metric-label">Claims Paid</div>
-                    <div class="metric-value">$35,703</div>
-                    <small style="color: #666;">18% loss ratio - Target is below 60%</small>
+                    <div class="metric-label">Total Claims Incurred</div>
+                    <div class="metric-value">$61,789</div>
+                    <small style="color: #27ae60; font-weight: 600;">11.34% loss ratio - Excellent! Target is below 60%</small>
                     <div style="margin-top: 0.5rem;">
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 18%;"></div>
+                            <div class="progress-fill" style="width: 11.34%;"></div>
                             <div class="progress-target"></div>
                             <span style="position: absolute; right: 38%; top: -20px; font-size: 0.75rem; color: #e74c3c;">Target 60%</span>
                         </div>
                     </div>
                 </div>
                 <div class="metric">
-                    <div class="metric-label">Claims by Coverage</div>
+                    <div class="metric-label">Claims by Coverage (June 30, 2025)</div>
                     <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
                         <div style="text-align: center;">
                             <div style="font-weight: 600;">WC</div>
-                            <div>3 claims</div>
+                            <div>5 claims</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-weight: 600;">AL</div>
-                            <div>4 claims</div>
+                            <div>6 claims</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-weight: 600;">GL</div>
                             <div>0 claims</div>
                         </div>
                         <div style="text-align: center;">
-                            <div style="font-weight: 600;">APD</div>
-                            <div>1 claim</div>
+                            <div style="font-weight: 600; color: #e67e22;">APD</div>
+                            <div style="color: #e67e22;">12 claims</div>
                         </div>
                     </div>
                 </div>
@@ -617,6 +662,21 @@
         
         <!-- Full-width cards section -->
         <div style="margin-top: 1.5rem;">
+            <!-- Alert for APD Claims -->
+            <div class="card" style="margin-bottom: 1.5rem; border-left: 4px solid #f39c12;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="font-size: 2rem;">⚠️</div>
+                    <div>
+                        <h3 style="margin: 0; color: #e67e22;">Auto Physical Damage Alert</h3>
+                        <p style="margin: 0.5rem 0 0; color: #666;">
+                            12 APD claims in 11 months indicates a concerning frequency of vehicle incidents. 
+                            While average claim severity is low ($1,603), the frequency suggests potential operational issues.
+                            Consider implementing additional driver safety training and vehicle maintenance programs.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Claims Trend Chart -->
             <div class="card" style="margin-bottom: 1.5rem;">
                 <div class="card-header">
@@ -633,7 +693,7 @@
                         <canvas id="trendChart"></canvas>
                     </div>
                     <div style="margin-top: 0.8rem; padding: 0.6rem; background: #e9ecef; border-radius: 6px; font-size: 0.85rem; color: #666;">
-                        <strong>Note:</strong> Shows full policy year from August 2024 to April 2025.
+                        <strong>Note:</strong> Shows full policy year from August 2024 to June 2025. Significant claim activity in May and June 2025.
                     </div>
                 </div>
                 <div id="coverage" class="tab-content">
@@ -641,19 +701,20 @@
                         <canvas id="coverageChart"></canvas>
                     </div>
                     <div style="margin-top: 1rem;">
-                        <h4>Coverage Breakdown</h4>
+                        <h4>Coverage Breakdown (June 30, 2025)</h4>
                         <ul style="list-style: none; padding: 0;">
                             <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
-                                <strong>Workers Compensation:</strong> 3 claims - $5,512 paid
+                                <strong>Workers Compensation:</strong> 5 claims - $26,785 incurred
                             </li>
                             <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
-                                <strong>Auto Liability:</strong> 4 claims - $26,488 paid
+                                <strong>Auto Liability:</strong> 6 claims - $15,773 incurred
                             </li>
                             <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">
-                                <strong>General Liability:</strong> 0 claims - $0 paid
+                                <strong>General Liability:</strong> 0 claims - $0 incurred
                             </li>
-                            <li style="padding: 0.5rem 0;">
-                                <strong>Auto Physical Damage:</strong> 1 claim - $7,693 paid
+                            <li style="padding: 0.5rem 0; background: #fff3cd; padding: 0.5rem; border-radius: 4px;">
+                                <strong>Auto Physical Damage:</strong> 12 claims - $19,231 incurred
+                                <span class="warning-badge">High Frequency</span>
                             </li>
                         </ul>
                     </div>
@@ -673,22 +734,25 @@
                                     <th style="text-align: right;">Paid</th>
                                     <th style="text-align: right;">Reserved</th>
                                     <th style="text-align: right;">Total Incurred</th>
+                                    <th style="text-align: right;">Avg/Claim</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>Workers Compensation</td>
-                                    <td style="text-align: center;">3</td>
-                                    <td style="text-align: right;">$5,012</td>
-                                    <td style="text-align: right;">$488</td>
-                                    <td style="text-align: right;">$5,500</td>
+                                    <td style="text-align: center;">5</td>
+                                    <td style="text-align: right;">$18,785</td>
+                                    <td style="text-align: right;">$8,000</td>
+                                    <td style="text-align: right;">$26,785</td>
+                                    <td style="text-align: right;">$5,357</td>
                                 </tr>
                                 <tr>
                                     <td>Auto Liability</td>
-                                    <td style="text-align: center;">4</td>
-                                    <td style="text-align: right;">$12,998</td>
-                                    <td style="text-align: right;">$13,490</td>
-                                    <td style="text-align: right;">$26,488</td>
+                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: right;">$10,773</td>
+                                    <td style="text-align: right;">$5,000</td>
+                                    <td style="text-align: right;">$15,773</td>
+                                    <td style="text-align: right;">$2,629</td>
                                 </tr>
                                 <tr>
                                     <td>General Liability</td>
@@ -696,32 +760,36 @@
                                     <td style="text-align: right;">$0</td>
                                     <td style="text-align: right;">$0</td>
                                     <td style="text-align: right;">$0</td>
-                                </tr>
-                                <tr>
-                                    <td>Auto Physical Damage</td>
-                                    <td style="text-align: center;">1</td>
-                                    <td style="text-align: right;">$7,693</td>
                                     <td style="text-align: right;">$0</td>
-                                    <td style="text-align: right;">$7,693</td>
+                                </tr>
+                                <tr style="background: #fff3cd;">
+                                    <td>Auto Physical Damage <span class="warning-badge">High Freq</span></td>
+                                    <td style="text-align: center; color: #e67e22; font-weight: 600;">12</td>
+                                    <td style="text-align: right;">$17,231</td>
+                                    <td style="text-align: right;">$2,000</td>
+                                    <td style="text-align: right;">$19,231</td>
+                                    <td style="text-align: right;">$1,603</td>
                                 </tr>
                                 <tr style="font-weight: 700; background: #f8f9fa;">
                                     <td>TOTAL</td>
-                                    <td style="text-align: center;">8</td>
-                                    <td style="text-align: right;">$25,703</td>
-                                    <td style="text-align: right;">$13,978</td>
-                                    <td style="text-align: right;">$39,681</td>
+                                    <td style="text-align: center;">23</td>
+                                    <td style="text-align: right;">$46,789</td>
+                                    <td style="text-align: right;">$15,000</td>
+                                    <td style="text-align: right;">$61,789</td>
+                                    <td style="text-align: right;">$2,686</td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="mobile-scroll-hint">← Scroll horizontally to see all columns →</div>
                     </div>
                     <div style="margin-top: 1.5rem; padding: 1rem; background: #d1ecf1; border-radius: 8px;">
-                        <h5 style="color: #0c5460; margin-bottom: 0.5rem;">Key Observations:</h5>
+                        <h5 style="color: #0c5460; margin-bottom: 0.5rem;">Key Observations (June 30, 2025):</h5>
                         <ul style="list-style: none; padding: 0; color: #0c5460; font-size: 0.9rem;">
-                            <li style="margin-bottom: 0.3rem;">✓ Auto Liability has the highest severity with $6,622 average per claim</li>
-                            <li style="margin-bottom: 0.3rem;">✓ Workers Compensation claims are well controlled at $1,833 average</li>
+                            <li style="margin-bottom: 0.3rem;">✓ Exceptional loss ratio of 11.34% (industry average 40-60%)</li>
+                            <li style="margin-bottom: 0.3rem;">✓ Workers Compensation severity increased but remains manageable</li>
+                            <li style="margin-bottom: 0.3rem;">✓ Auto Liability claims well controlled with low average severity</li>
                             <li style="margin-bottom: 0.3rem;">✓ No General Liability claims this year</li>
-                            <li>✓ Overall loss ratio of 18% is excellent (industry average 40-60%)</li>
+                            <li style="color: #e67e22; font-weight: 600;">⚠️ APD frequency (12 claims) requires immediate attention</li>
                         </ul>
                     </div>
                 </div>
@@ -793,13 +861,14 @@
                     </div>
                 </div>
                 
-                <div style="margin-top: 1.5rem; padding: 1rem; background: #fef9e7; border-radius: 8px; border-left: 4px solid #f39c12;">
-                    <h5 style="color: #7d6608; margin-bottom: 0.5rem;">Your Equity Growth Formula:</h5>
-                    <p style="margin: 0; color: #7d6608; font-size: 0.9rem;">
-                        <strong>Premium Paid ($198,467)</strong> - <strong>Claims ($39,681)</strong> - <strong>Expenses (~15%)</strong> = <strong>Equity Growth</strong>
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #e8f8f5; border-radius: 8px; border-left: 4px solid #27ae60;">
+                    <h5 style="color: #155724; margin-bottom: 0.5rem;">Outstanding Performance Update (June 30, 2025):</h5>
+                    <p style="margin: 0; color: #155724; font-size: 0.9rem;">
+                        <strong>Earned Premium ($544,833)</strong> - <strong>Claims ($61,789)</strong> - <strong>Expenses (~15%)</strong> = <strong>Exceptional Equity Growth</strong>
                     </p>
-                    <p style="margin: 0.5rem 0 0; color: #7d6608; font-size: 0.85rem;">
-                        With your excellent 18% loss ratio, you're building equity faster than most members!
+                    <p style="margin: 0.5rem 0 0; color: #155724; font-size: 0.85rem;">
+                        With your 11.34% loss ratio, you're significantly outperforming industry benchmarks! 
+                        Focus on addressing the APD frequency issue to maintain this exceptional performance.
                     </p>
                 </div>
             </div>
@@ -824,22 +893,22 @@
             });
             chartInstances = {};
             
-            // Initialize trend chart
+            // Initialize trend chart with June 2025 data
             const trendCtx = document.getElementById('trendChart');
             if (trendCtx) {
                 chartInstances.trend = new Chart(trendCtx.getContext('2d'), {
                     type: 'line',
                     data: {
-                        labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'],
+                        labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                         datasets: [{
                             label: 'Claims Incurred',
-                            data: [0, 7693, 5500, 26488, 0, 0, 0, 0, 0],
+                            data: [0, 7693, 5500, 6500, 0, 0, 0, 2990, 10998, 10608, 12000],
                             borderColor: '#e74c3c',
                             backgroundColor: 'rgba(231, 76, 60, 0.1)',
                             tension: 0.3
                         }, {
                             label: 'Cumulative Claims',
-                            data: [0, 7693, 13193, 39681, 39681, 39681, 39681, 39681, 39681],
+                            data: [0, 7693, 13193, 13193, 13193, 13193, 13193, 16183, 39181, 49789, 61789],
                             borderColor: '#3498db',
                             backgroundColor: 'rgba(52, 152, 219, 0.1)',
                             tension: 0.3
@@ -867,7 +936,7 @@
                 });
             }
             
-            // Initialize coverage chart
+            // Initialize coverage chart with June 2025 data
             const coverageCtx = document.getElementById('coverageChart');
             if (coverageCtx) {
                 chartInstances.coverage = new Chart(coverageCtx.getContext('2d'), {
@@ -875,7 +944,7 @@
                     data: {
                         labels: ['Workers Comp', 'Auto Liability', 'General Liability', 'Auto Physical Damage'],
                         datasets: [{
-                            data: [5500, 26488, 0, 7693],
+                            data: [26785, 15773, 0, 19231],
                             backgroundColor: [
                                 '#3498db',
                                 '#e74c3c',
@@ -896,21 +965,29 @@
                 });
             }
             
-            // Initialize development chart
+            // Initialize development chart with June 2025 data
             const developmentCtx = document.getElementById('developmentChart');
             if (developmentCtx) {
                 chartInstances.development = new Chart(developmentCtx.getContext('2d'), {
                     type: 'bar',
                     data: {
-                        labels: ['Aug', 'Sep', 'Oct', 'Nov'],
+                        labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                         datasets: [{
-                            label: 'Paid',
-                            data: [0, 7693, 5012, 12998],
+                            label: 'Workers Comp',
+                            data: [0, 0, 5500, 0, 0, 0, 0, 0, 8000, 10285, 3000],
                             backgroundColor: '#3498db'
                         }, {
-                            label: 'Reserved',
-                            data: [0, 0, 488, 13490],
+                            label: 'Auto Liability',
+                            data: [0, 0, 0, 6500, 0, 0, 0, 0, 5273, 0, 4000],
                             backgroundColor: '#e74c3c'
+                        }, {
+                            label: 'General Liability',
+                            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            backgroundColor: '#27ae60'
+                        }, {
+                            label: 'Auto Physical Damage',
+                            data: [0, 7693, 0, 0, 0, 0, 0, 2990, 3538, 0, 5000],
+                            backgroundColor: '#f39c12'
                         }]
                     },
                     options: {
@@ -1084,31 +1161,33 @@
                     content = `
                         <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Loss Ratio Calculation</h2>
                         <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
-                            <h3 style="color: #27ae60; margin-bottom: 1rem;">18.0% Current Loss Ratio</h3>
+                            <h3 style="color: #27ae60; margin-bottom: 1rem;">11.34% Current Loss Ratio</h3>
                             
                             <div style="margin-bottom: 1.5rem;">
-                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Calculation:</h4>
-                                <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #dee2e6;">
-                                    <p style="margin: 0; font-size: 1.1rem; text-align: center;">
-                                        <strong>Loss Ratio = (Claims Incurred ÷ Premium Earned) × 100</strong>
-                                    </p>
-                                    <p style="margin: 1rem 0 0; text-align: center; color: #666;">
-                                        ($35,703 ÷ $198,467) × 100 = 18.0%
-                                    </p>
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">The Formula:</h4>
+                                <div style="font-size: 1.1rem; text-align: center; padding: 1.5rem; background: white; border-radius: 6px;">
+                                    <div style="margin-bottom: 1rem;">
+                                        Loss Ratio = (Total Incurred Losses ÷ Earned Premium) × 100
+                                    </div>
+                                    <div style="font-weight: 700; color: #2196f3; font-size: 1.3rem;">
+                                        ($61,789 ÷ $544,833) × 100 = 11.34%
+                                    </div>
                                 </div>
                             </div>
                             
                             <div style="background: #d4edda; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
-                                <h5 style="color: #155724; margin-bottom: 0.5rem;">Excellent Performance!</h5>
+                                <h5 style="color: #155724; margin-bottom: 0.5rem;">Outstanding Performance!</h5>
                                 <p style="margin: 0; color: #155724; font-size: 0.9rem;">
-                                    Your 18% loss ratio is significantly below the target of 60% and the industry average of 40-60%. This indicates excellent risk management and claims control.
+                                    Your 11.34% loss ratio is exceptional - significantly below the target of 60% and the industry average of 40-60%. 
+                                    This improved from 18% earlier in the year despite increased claim frequency.
                                 </p>
                             </div>
                             
                             <div style="background: #cfe2ff; padding: 1rem; border-radius: 6px;">
                                 <h5 style="color: #084298; margin-bottom: 0.5rem;">Impact on Your Equity</h5>
                                 <p style="margin: 0; color: #084298; font-size: 0.9rem;">
-                                    A lower loss ratio means more of your premium dollars stay in the captive, building your equity. At 18%, approximately 82% of your premium (minus expenses) contributes to equity growth!
+                                    With an 11.34% loss ratio, approximately 88.66% of your premium (minus expenses) contributes to equity growth! 
+                                    This exceptional performance accelerates your equity accumulation significantly.
                                 </p>
                             </div>
                         </div>
@@ -1117,9 +1196,9 @@
                     
                 case 'claims':
                     content = `
-                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Claims Detail Summary</h2>
+                        <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Claims Detail Summary (June 30, 2025)</h2>
                         <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
-                            <h3 style="color: #e74c3c; margin-bottom: 1rem;">8 Total Claims YTD</h3>
+                            <h3 style="color: #e74c3c; margin-bottom: 1rem;">23 Total Claims YTD</h3>
                             
                             <div style="margin-bottom: 1.5rem;">
                                 <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Claims by Coverage Type:</h4>
@@ -1135,15 +1214,15 @@
                                     <tbody>
                                         <tr style="border-bottom: 1px solid #dee2e6;">
                                             <td style="padding: 0.8rem;">Workers Compensation</td>
-                                            <td style="text-align: center; padding: 0.8rem;">3</td>
-                                            <td style="text-align: right; padding: 0.8rem;">$5,500</td>
-                                            <td style="text-align: right; padding: 0.8rem;">$1,833</td>
+                                            <td style="text-align: center; padding: 0.8rem;">5</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$26,785</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$5,357</td>
                                         </tr>
                                         <tr style="border-bottom: 1px solid #dee2e6;">
                                             <td style="padding: 0.8rem;">Auto Liability</td>
-                                            <td style="text-align: center; padding: 0.8rem;">4</td>
-                                            <td style="text-align: right; padding: 0.8rem;">$26,488</td>
-                                            <td style="text-align: right; padding: 0.8rem;">$6,622</td>
+                                            <td style="text-align: center; padding: 0.8rem;">6</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$15,773</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$2,629</td>
                                         </tr>
                                         <tr style="border-bottom: 1px solid #dee2e6;">
                                             <td style="padding: 0.8rem;">General Liability</td>
@@ -1151,26 +1230,36 @@
                                             <td style="text-align: right; padding: 0.8rem;">$0</td>
                                             <td style="text-align: right; padding: 0.8rem;">$0</td>
                                         </tr>
-                                        <tr style="border-bottom: 1px solid #dee2e6;">
-                                            <td style="padding: 0.8rem;">Auto Physical Damage</td>
-                                            <td style="text-align: center; padding: 0.8rem;">1</td>
-                                            <td style="text-align: right; padding: 0.8rem;">$7,693</td>
-                                            <td style="text-align: right; padding: 0.8rem;">$7,693</td>
+                                        <tr style="border-bottom: 1px solid #dee2e6; background: #fff3cd;">
+                                            <td style="padding: 0.8rem;">Auto Physical Damage ⚠️</td>
+                                            <td style="text-align: center; padding: 0.8rem; color: #e67e22; font-weight: 600;">12</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$19,231</td>
+                                            <td style="text-align: right; padding: 0.8rem;">$1,603</td>
                                         </tr>
-                                        <tr style="background: #fff3cd;">
+                                        <tr style="background: #e3f2fd;">
                                             <td style="padding: 0.8rem; font-weight: 700;">Total</td>
-                                            <td style="text-align: center; padding: 0.8rem; font-weight: 700;">8</td>
-                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$39,681</td>
-                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$4,960</td>
+                                            <td style="text-align: center; padding: 0.8rem; font-weight: 700;">23</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$61,789</td>
+                                            <td style="text-align: right; padding: 0.8rem; font-weight: 700;">$2,686</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             
+                            <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                                <h5 style="color: #856404; margin-bottom: 0.5rem;">⚠️ Auto Physical Damage Alert</h5>
+                                <p style="margin: 0; color: #856404; font-size: 0.9rem;">
+                                    12 APD claims represent 52% of total claim frequency. While severity is low ($1,603 average), 
+                                    this frequency indicates potential issues with driver training or vehicle maintenance. 
+                                    Consider implementing additional safety programs.
+                                </p>
+                            </div>
+                            
                             <div style="background: #cfe2ff; padding: 1rem; border-radius: 6px;">
                                 <h5 style="color: #084298; margin-bottom: 0.5rem;">Claims Frequency Analysis</h5>
                                 <p style="margin: 0; color: #084298; font-size: 0.9rem;">
-                                    With 8 claims in 9 months, you're averaging less than 1 claim per month. Auto Liability shows the highest frequency (4 claims) and severity ($6,622 average), which is typical for landscape operations.
+                                    With 23 claims in 11 months, you're averaging 2.1 claims per month. Despite the increased frequency, 
+                                    your low severity and excellent loss ratio of 11.34% demonstrate strong overall risk management.
                                 </p>
                             </div>
                         </div>
